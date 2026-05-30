@@ -26,26 +26,25 @@ Page({
 
   async _loadPageData() {
     try {
-      const [userRes, memoryRes, recommendRes] = await Promise.all([
-        api.getUser(),
-        api.getMemoryToday(),
-        api.getDailyRecommend()
-      ])
-
-      if (userRes.code === 0) {
-        this.setData({ userInfo: userRes.data })
-        getApp().globalData.userInfo = userRes.data
-      } else {
+      // 先确认用户身份，失败立即跳引导页
+      const userRes = await api.getUser()
+      if (userRes.code !== 0) {
         wx.reLaunch({ url: '/pages/onboarding/index/index' })
         return
       }
+      this.setData({ userInfo: userRes.data })
+      getApp().globalData.userInfo = userRes.data
+
+      // 再并行加载其余数据，单项失败不阻塞页面
+      const [memoryRes, recommendRes] = await Promise.all([
+        api.getMemoryToday().catch(() => ({ code: -1 })),
+        api.getDailyRecommend().catch(() => ({ code: -1 }))
+      ])
 
       if (memoryRes.code === 0) {
         this.setData({ memoryToday: memoryRes.data })
       }
-
       if (recommendRes.code === 0) {
-        // 首页只展示前 2 个推荐
         this.setData({ dailyMatches: (recommendRes.data || []).slice(0, 2) })
       }
     } catch (err) {
