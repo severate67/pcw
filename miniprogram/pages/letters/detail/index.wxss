@@ -84,14 +84,30 @@
   padding: 24rpx 32rpx;
   background-color: var(--color-bg);
   border-top: 1rpx solid var(--color-paper);
+  display: flex;
+  gap: 16rpx;
 }
 
-.reply-btn {
-  width: 100%;
+.archive-btn {
+  flex: 1;
   text-align: center;
   padding: 24rpx 0;
   font-size: 30rpx;
   border-radius: 8rpx;
+  border: 2rpx solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.reply-btn {
+  flex: 2;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  border-radius: 8rpx;
+}
+
+.reply-btn-half {
+  flex: 2;
 }
 
 .empty-state {

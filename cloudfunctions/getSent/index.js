@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
     const skip = page * PAGE_SIZE
 
     const res = await db.collection('letters')
-      .where({ from_uid: OPENID })
+      .where({ from_uid: OPENID, status: db.command.neq('archived') })
       .orderBy('created_at', 'desc')
       .skip(skip)
       .limit(PAGE_SIZE)

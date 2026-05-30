@@ -61,6 +61,12 @@ const getInbox = (page) => callCloud('getInbox', { page: page || 0 })
  */
 const getSent = (page) => callCloud('getSent', { page: page || 0 })
 
+/**
+ * 归档信件（仅发件人可操作）
+ * @param {string} id 信件 _id
+ */
+const archiveLetter = (id) => callCloud('archiveLetter', { id })
+
 // ─── 情绪相关 ────────────────────────────────────────────────
 
 /**
@@ -139,6 +145,7 @@ module.exports = {
   replyLetter,
   getInbox,
   getSent,
+  archiveLetter,
   saveMood,
   getMoods,
   getMoodTrend,

@@ -115,6 +115,14 @@ Page({
 
     this.setData({ submitting: true })
     try {
+      // 内容安全检查（用于 intro）
+      const moderateRes = await api.moderateContent(this.data.intro)
+      if (moderateRes.code !== 0) {
+        wx.showToast({ title: '介绍内容包含违规信息，请修改', icon: 'none', duration: 3000 })
+        this.setData({ submitting: false, step: 1 })
+        return
+      }
+
       const res = await api.createUser({
         nickname: this.data.nickname,
         intro: this.data.intro,
