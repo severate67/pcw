@@ -13,7 +13,7 @@
 - **平台**：微信小程序（基础库 3.0+）
 - **后端**：微信云开发 CloudBase（无服务器）
 - **数据库**：云数据库（MongoDB 文档型）
-- **当前阶段**：Sprint 1 — 基础框架（进行中）
+- **当前阶段**：Sprint 3 — 书信核心（下）（待开始）
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
 
 ---
@@ -206,6 +206,21 @@ wx.cloud.callFunction({
 - 数据库集合名：`snake_case`（如 `letters`、`moods`）
 - WXSS 类名：`kebab-case`（如 `.letter-card`）
 
+### 组件 WXSS 限制
+微信小程序组件的 `.wxss` 文件**严禁**使用以下选择器类型（会报错）：
+- 标签名选择器：`text { }` `view { }` `input { }` 等
+- ID 选择器：`#my-id { }`
+- 属性选择器：`[data-x] { }`
+
+所有样式必须通过**类选择器**（`.class-name`）编写。例如：
+```css
+/* ❌ 错误 */
+.legend-item text { font-size: 20rpx; }
+
+/* ✅ 正确 */
+.legend-item-label { font-size: 20rpx; }
+```
+
 ### 云函数规范
 每个云函数必须：
 1. 在入口处调用 `cloud.init()`
@@ -255,6 +270,7 @@ export const getLetter  = (id)   => callCloud('getLetter',  { id })
 6. **禁止使用实时聊天功能**（WebSocket、长轮询）——本产品为异步书信，无实时通信需求
 7. **禁止暴露用户手机号、微信号等真实身份信息**给其他用户
 8. **禁止在页面 JS 中重复写字数校验逻辑**——统一使用 `utils/validator.js`
+9. **禁止在组件 WXSS 中使用标签/ID/属性选择器**——只允许类选择器（见代码规范）
 
 ---
 
@@ -383,6 +399,21 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **已知限制（后续 Sprint 处理）：**
 - 订阅消息推送（来信提醒）：TODO，需用户申请模板
 - 信件归档功能：计划 Sprint 3 实现
+
+## Sprint 2 Bug 修复记录
+
+| 文件 | 问题 | 修复方式 |
+|------|------|----------|
+| `inbox/index.js` | 缺少 `goToSent()` / `goToMatch()` 方法，点击 Tab 和空状态按钮无响应 | 补充两个导航方法 |
+| `sent/index.js` | `goToInbox()` 用 `navigateBack()` 但 inbox 是 tabBar 页 | 改为 `wx.switchTab()` |
+| `sent/index.js` | `getSent` 返回 `receiverNickname`，envelope-card 读 `senderNickname` 导致显示「陌生人」 | 加载时做字段映射 |
+| `getLetter/index.js` | 前端无法比较 openid，无法判断谁是回信对象 | 云函数返回 `replyToUid` / `replyToNickname` / `isRecipient` |
+| `detail/index.js` | 回信跳转写死 `from_uid`，发件人查看自己发出的信时回信对象错误 | 改用 `replyToUid` |
+| `detail/index.js` | 时间显示原始 ISO 字符串 | 用 `dateUtil.relativeTime()` 格式化 |
+| `letter-paper/index.js` | `lineCount` 未初始化，横线背景不渲染 | 初始化 `lineCount: 20`，添加日期格式化 observer |
+| `sendLetter` / `replyLetter` | 中文字符正则 `/[一-鿿]/` 与 `validator.js` 的 `/[一-龥]/` 不一致 | 统一为 `/[一-龥]/` |
+| `emotion-calendar/index.wxss` | `.legend-item text {}` 使用标签名选择器，组件内不允许 | 改为 `.legend-item-label {}` 类选择器 |
+| `app.js` | `_checkUser()` 无超时保护，云函数超时抛出 `SystemError` 阻断启动 | 添加 5 秒超时 + 静默失败 |
 
 ## 已知环境信息
 
