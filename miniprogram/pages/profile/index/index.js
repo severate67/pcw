@@ -17,18 +17,25 @@ Page({
   },
 
   onShow() {
-    // 编辑资料返回后刷新
-    this._loadProfile()
+    if (this.data.userInfo) {
+      // 已有数据时后台静默刷新，不显示 loading
+      this._loadProfile(true)
+    } else {
+      this._loadProfile(false)
+    }
   },
 
-  async _loadProfile() {
-    this.setData({ loading: true })
+  async _loadProfile(silent) {
+    if (!silent) {
+      this.setData({ loading: true })
+    }
     try {
       const res = await api.getUser()
       if (res.code === 0) {
         const user = res.data
         this.setData({
           userInfo: user,
+          loading: false,
           stats: {
             lettersSent: user.lettersSent || 0,
             lettersReceived: user.lettersReceived || 0,
@@ -37,14 +44,17 @@ Page({
         })
         getApp().globalData.userInfo = user
       } else {
-        // 未注册，跳转引导
         wx.redirectTo({ url: '/pages/onboarding/index/index' })
       }
     } catch (err) {
       console.error('[profile] _loadProfile error:', err)
-      wx.showToast({ title: '网络异常，请稍后重试', icon: 'none' })
+      if (!silent) {
+        wx.showToast({ title: '网络异常，请稍后重试', icon: 'none' })
+      }
     } finally {
-      this.setData({ loading: false })
+      if (!silent) {
+        this.setData({ loading: false })
+      }
     }
   },
 

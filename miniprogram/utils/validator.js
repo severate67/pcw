@@ -3,7 +3,7 @@
 
 /**
  * 计算文本字数
- * 规则：去除首尾空格，中文字符每个计 1 字，英文单词每个计 1 字，不计标点、空格
+ * 规则：去除首尾空格，中文字符每个计 1 字，英文单词每个计 1 字，数字组每个计 1 字，不计标点、空格
  * @param {string} text
  * @returns {number}
  */
@@ -16,11 +16,12 @@ const countWords = (text) => {
   // 统计中文字符数
   const chineseChars = (trimmed.match(/[一-龥]/g) || []).length
 
-  // 去掉中文字符后统计英文单词数
+  // 去掉中文字符后统计英文单词数和独立数字组
   const withoutChinese = trimmed.replace(/[一-龥]/g, ' ')
   const englishWords = (withoutChinese.match(/\b[a-zA-Z]+\b/g) || []).length
+  const numbers = (withoutChinese.match(/\b\d+\b/g) || []).length
 
-  return chineseChars + englishWords
+  return chineseChars + englishWords + numbers
 }
 
 /**

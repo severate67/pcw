@@ -15,20 +15,20 @@
   padding: 12rpx 24rpx;
   border-radius: 20rpx;
   font-size: 26rpx;
-  color: var(--color-ink-secondary);
-  background-color: var(--color-bg);
-  border: 2rpx solid var(--color-gold);
+  color: #7A5C3E;
+  background-color: #F5EFE0;
+  border: 2rpx solid #C9A66B;
 }
 
 .tag-selected {
-  background-color: var(--color-primary);
+  background-color: #5C3D20;
   color: #ffffff;
-  border-color: var(--color-primary);
+  border-color: #5C3D20;
 }
 
 .tag-hint {
   font-size: 22rpx;
-  color: var(--color-ink-secondary);
+  color: #7A5C3E;
   display: block;
   text-align: center;
 }

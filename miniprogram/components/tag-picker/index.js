@@ -7,29 +7,31 @@ const PRESET_TAGS = [
 ]
 
 Component({
+  options: {
+    styleIsolation: 'apply-shared'
+  },
+
   properties: {
-    selected: {
-      type: Array,
-      value: []
-    },
-    max: {
-      type: Number,
-      value: 5
-    },
-    min: {
-      type: Number,
-      value: 3
+    selected: { type: Array, value: [] },
+    max: { type: Number, value: 5 },
+    min: { type: Number, value: 3 }
+  },
+
+  observers: {
+    selected(newVal) {
+      this.setData({ _selected: newVal || [] })
     }
   },
 
   data: {
-    presetTags: PRESET_TAGS
+    presetTags: PRESET_TAGS,
+    _selected: []
   },
 
   methods: {
     toggleTag(e) {
       const { tag } = e.currentTarget.dataset
-      const selected = [...this.properties.selected]
+      const selected = [...this.data._selected]
       const idx = selected.indexOf(tag)
 
       if (idx >= 0) {
@@ -42,6 +44,7 @@ Component({
         selected.push(tag)
       }
 
+      this.setData({ _selected: selected })
       this.triggerEvent('change', { value: selected })
     }
   }
