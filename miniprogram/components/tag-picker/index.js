@@ -12,21 +12,14 @@ Component({
   },
 
   properties: {
-    selected: {
-      type: Array,
-      value: [],
-      observer(newVal) {
-        // 将 property 同步到 data，确保 WXML 重渲染
-        this.setData({ _selected: newVal || [] })
-      }
-    },
-    max: {
-      type: Number,
-      value: 5
-    },
-    min: {
-      type: Number,
-      value: 3
+    selected: { type: Array, value: [] },
+    max: { type: Number, value: 5 },
+    min: { type: Number, value: 3 }
+  },
+
+  observers: {
+    selected(newVal) {
+      this.setData({ _selected: newVal || [] })
     }
   },
 
