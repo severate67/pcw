@@ -7,6 +7,10 @@ const PRESET_TAGS = [
 ]
 
 Component({
+  options: {
+    styleIsolation: 'apply-shared'
+  },
+
   properties: {
     selected: {
       type: Array,

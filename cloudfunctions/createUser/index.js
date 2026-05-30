@@ -71,5 +71,6 @@ function _countWords(text) {
   const chineseChars = (trimmed.match(/[一-鿿]/g) || []).length
   const withoutChinese = trimmed.replace(/[一-鿿]/g, ' ')
   const englishWords = (withoutChinese.match(/\b[a-zA-Z]+\b/g) || []).length
-  return chineseChars + englishWords
+  const numbers = (withoutChinese.match(/\b\d+\b/g) || []).length
+  return chineseChars + englishWords + numbers
 }
