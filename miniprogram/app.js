@@ -8,11 +8,13 @@ App({
   async _checkUser() {
     try {
       const res = await new Promise((resolve, reject) => {
+        // 5秒超时，避免云函数超时阻塞启动
+        const timer = setTimeout(() => reject(new Error('timeout')), 5000)
         wx.cloud.callFunction({
           name: 'getUser',
           data: {},
-          success: r => resolve(r.result),
-          fail: reject
+          success: r => { clearTimeout(timer); resolve(r.result) },
+          fail: err => { clearTimeout(timer); reject(err) }
         })
       })
       if (res.code === 0) {
@@ -22,7 +24,8 @@ App({
         wx.reLaunch({ url: '/pages/onboarding/index/index' })
       }
     } catch (err) {
-      console.error('[app] _checkUser error:', err)
+      // 超时或网络错误时静默失败，不影响页面正常加载
+      console.warn('[app] _checkUser failed:', err.message)
     }
   },
 
