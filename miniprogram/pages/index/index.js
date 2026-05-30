@@ -34,8 +34,10 @@ Page({
 
       if (userRes.code === 0) {
         this.setData({ userInfo: userRes.data })
-        // 同步到全局
         getApp().globalData.userInfo = userRes.data
+      } else {
+        wx.reLaunch({ url: '/pages/onboarding/index/index' })
+        return
       }
 
       if (memoryRes.code === 0) {
