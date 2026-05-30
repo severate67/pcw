@@ -9,13 +9,19 @@
  */
 const callCloud = (name, data) => {
   return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      resolve({ code: 9002, data: null, message: '请求超时' })
+    }, 8000)
+
     wx.cloud.callFunction({
       name,
       data: data || {},
       success: res => {
+        clearTimeout(timer)
         resolve(res.result)
       },
       fail: err => {
+        clearTimeout(timer)
         console.error(`[api] callCloud(${name}) failed:`, err)
         reject(err)
       }

@@ -10,8 +10,8 @@
 
 | Sprint | 周次 | 主题 | 状态 |
 |--------|------|------|------|
-| Sprint 0 | 第 1–2 周 | 需求与设计 | 🔄 进行中 |
-| Sprint 1 | 第 3–4 周 | 基础框架 | ⬜ 未开始 |
+| Sprint 0 | 第 1–2 周 | 需求与设计 | ✅ 已完成 |
+| Sprint 1 | 第 3–4 周 | 基础框架 | 🔄 进行中 |
 | Sprint 2 | 第 5–6 周 | 书信核心（上）| ⬜ 未开始 |
 | Sprint 3 | 第 7–8 周 | 书信核心（下）| ⬜ 未开始 |
 | Sprint 4 | 第 9–10 周 | 情绪系统 | ⬜ 未开始 |
@@ -87,24 +87,24 @@
 ### 任务清单
 
 #### 页面开发
-- [ ] `pages/onboarding/index` — 注册引导页（精神身份证填写，3 步流程）
-- [ ] `pages/profile/index` — 个人主页（展示昵称、头像、标签、介绍）
-- [ ] `pages/profile/edit` — 编辑资料页（修改昵称、介绍、标签）
-- [ ] `app.json` — 配置 TabBar（4 个 Tab，图标与选中色）
-- [ ] `app.json` — 配置全部 11 个页面路由
+- [x] `pages/onboarding/index` — 注册引导页（精神身份证填写，3 步流程）
+- [x] `pages/profile/index` — 个人主页（展示昵称、头像、标签、介绍）
+- [x] `pages/profile/edit` — 编辑资料页（修改昵称、介绍、标签）
+- [x] `app.json` — 配置 TabBar（4 个 Tab，图标与选中色）
+- [x] `app.json` — 配置全部 11 个页面路由
 
 #### 组件开发
-- [ ] `components/tag-picker` — 兴趣标签选择器（30 个预设标签，3–5 个限选）
+- [x] `components/tag-picker` — 兴趣标签选择器（30 个预设标签，3–5 个限选）
 
 #### 云函数开发
-- [ ] `cloudfunctions/createUser` — 新用户注册，写入 `users` 集合
-- [ ] `cloudfunctions/getUser` — 获取当前用户信息
-- [ ] `cloudfunctions/updateUser` — 更新用户资料
+- [x] `cloudfunctions/createUser` — 新用户注册，写入 `users` 集合
+- [x] `cloudfunctions/getUser` — 获取当前用户信息
+- [x] `cloudfunctions/updateUser` — 更新用户资料
 
 #### 工具函数
-- [ ] `utils/api.js` — 云函数调用封装（统一 callCloud wrapper）
-- [ ] `utils/validator.js` — `countWords(text)` 字数计算函数
-- [ ] `utils/date.js` — 日期格式化工具（`YYYY-MM-DD`、相对时间展示）
+- [x] `utils/api.js` — 云函数调用封装（统一 callCloud wrapper）
+- [x] `utils/validator.js` — `countWords(text)` 字数计算函数
+- [x] `utils/date.js` — 日期格式化工具（`YYYY-MM-DD`、相对时间展示）
 
 #### 测试
 - [ ] TC：新用户注册后 `users` 集合有正确数据
