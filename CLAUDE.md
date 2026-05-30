@@ -336,7 +336,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 |--------|------|------|----------|
 | Sprint 0 | 需求与设计 | ✅ 已完成 | 2026-05-30 |
 | Sprint 1 | 基础框架 | ✅ 已完成 | 2026-05-30 |
-| Sprint 2 | 书信核心（上） | ⬜ 未开始 | — |
+| Sprint 2 | 书信核心（上） | ✅ 已完成 | 2026-05-30 |
 | Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
 | Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
 | Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
@@ -361,31 +361,32 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **待人工完成：**
 - 微信订阅消息模板申请（来信提醒 / 情绪记忆提醒）
 
-## Sprint 1 完成情况（2026-05-30）
+## Sprint 2 完成情况（2026-05-30）
 
 **已完成：**
-- `pages/onboarding/index/` — 3 步精神身份证注册流程（昵称/介绍 → 标签选择 → 书写偏好）
-- `pages/profile/index/` — 个人主页（头像、昵称、标签、统计数据、功能菜单）
-- `pages/profile/edit/` — 编辑资料页（昵称、介绍、标签、活跃时段、书信频率）
-- `components/tag-picker/` — 兴趣标签选择器（30 个预设标签，3–5 个限选，选中态颜色正常）
-- `cloudfunctions/createUser` — 新用户注册，含后端字数校验 + 内容安全
-- `cloudfunctions/getUser` — 获取用户信息并更新 `last_active`，附带统计数据
-- `cloudfunctions/updateUser` — 更新资料，含内容安全校验
-- `utils/api.js` — 统一云函数调用封装，含 8s 超时保护
-- `utils/validator.js` — `countWords` 含中文 + 英文单词 + 数字统计
-- `utils/date.js` — 日期格式化 + 相对时间
-- `app.json` — TabBar 4 个 Tab + 11 个页面路由
-- 新用户首次进入自动跳转 onboarding，已注册用户直接进首页
+- `pages/letters/write/`：写信页完整实现（字数校验、内容安全、发送流程）
+- `pages/letters/inbox/`：收件箱完整实现（分页加载、下拉刷新、上拉加载更多）
+- `pages/letters/sent/`：已发出列表完整实现（receiverNickname 映射）
+- `pages/letters/detail/`：信件详情 + 拆信动画完整实现（5阶段状态机）
+- `cloudfunctions/sendLetter/`：发信云函数（字数校验、内容安全、写入 letters）
+- `cloudfunctions/getLetter/`：取信云函数（权限校验、自动标 read、返回 replyToUid）
+- `cloudfunctions/replyLetter/`：回信云函数（权限校验、字数校验）
+- `cloudfunctions/getInbox/`：收件箱云函数（分页、批量获取 senderNickname）
+- `cloudfunctions/getSent/`：已发出云函数（分页、批量获取 receiverNickname）
+- `cloudfunctions/moderateContent/`：内容安全审核（微信 API v2）
+- `components/letter-paper/`：信纸组件（横线背景、日期格式化）
+- `components/open-animation/`：拆信动画组件（5阶段 wx.createAnimation）
+- `components/envelope-card/`：信封卡片组件（未读红点、相对时间）
+- `components/seal-stamp/`：蜡封印章组件（按压动画、激活态）
+- `app.js`：启动时检查用户是否注册，未注册跳转 onboarding
 
-**已知注意事项：**
-- 组件 WXSS 内不能使用标签选择器（如 `.wrap text`），必须加 class
-- 自定义组件内 CSS 变量可能不继承，重要颜色用硬编码 hex 值
-- `Component.observers` 字段（非 property 内联 observer）兼容性更好
-- `onShow` 刷新数据时若有已加载数据，应使用静默刷新（不切换 loading 状态）
+**已知限制（后续 Sprint 处理）：**
+- 订阅消息推送（来信提醒）：TODO，需用户申请模板
+- 信件归档功能：计划 Sprint 3 实现
 
 ## 已知环境信息
 
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
-- **云函数数量**：18 个（均已上传，Sprint 1 完成 createUser / getUser / updateUser 实现）
+- **云函数数量**：18 个（均已上传，Sprint 2 完成核心书信函数）
 - **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
 - **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）

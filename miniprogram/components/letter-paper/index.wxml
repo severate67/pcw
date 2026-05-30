@@ -22,7 +22,7 @@
 
       <!-- 日期与签名区 -->
       <view class="letter-footer">
-        <text class="footer-date">{{letter ? letter.created_at : ''}}</text>
+        <text class="footer-date">{{dateDisplay}}</text>
         <text class="footer-sign">—— {{letter && letter.senderNickname ? letter.senderNickname : '作者'}}</text>
       </view>
 

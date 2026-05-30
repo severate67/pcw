@@ -100,7 +100,7 @@
   border-radius: 8rpx;
 }
 
-.legend-label {
+.legend-item-label {
   font-size: 20rpx;
   color: var(--color-ink-secondary);
 }

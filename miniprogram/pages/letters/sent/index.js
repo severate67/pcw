@@ -29,7 +29,11 @@ Page({
     try {
       const res = await api.getSent(this.data.page)
       if (res.code === 0) {
-        const newLetters = res.data || []
+        // 将 receiverNickname 映射到 senderNickname，envelope-card 组件统一使用 senderNickname 显示
+        const newLetters = (res.data || []).map(l => ({
+          ...l,
+          senderNickname: l.receiverNickname || '陌生人'
+        }))
         this.setData({
           letters: this.data.page === 0 ? newLetters : this.data.letters.concat(newLetters),
           page: this.data.page + 1,
@@ -52,7 +56,7 @@ Page({
   },
 
   goToInbox() {
-    wx.navigateBack()
+    wx.switchTab({ url: '/pages/letters/inbox/index' })
   },
 
   goToWrite() {

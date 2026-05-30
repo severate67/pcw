@@ -43,11 +43,29 @@ exports.main = async (event, context) => {
       }
     } catch (e) {}
 
+    // 计算回信目标（对方），前端不能直接比较 openid
+    const isRecipient = letter.to_uid === OPENID
+    const replyToUid = isRecipient ? letter.from_uid : letter.to_uid
+    let replyToNickname = isRecipient ? senderNickname : '陌生人'
+
+    if (!isRecipient) {
+      // 当前用户是发件人，需要获取收件人昵称
+      try {
+        const receiverRes = await db.collection('users').doc(letter.to_uid).get()
+        if (receiverRes.data) {
+          replyToNickname = receiverRes.data.nickname
+        }
+      } catch (e) {}
+    }
+
     return {
       code: 0,
       data: {
         ...letter,
-        senderNickname
+        senderNickname,
+        replyToUid,
+        replyToNickname,
+        isRecipient
       },
       message: 'ok'
     }
