@@ -1,0 +1,9 @@
+{
+  "name": "archiveLetter",
+  "version": "1.0.0",
+  "description": "归档信件云函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

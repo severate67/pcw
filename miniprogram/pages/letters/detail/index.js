@@ -75,7 +75,30 @@ Page({
     const { letter } = this.data
     if (!letter) return
     wx.navigateTo({
-      url: `/pages/letters/write/index?targetUid=${letter.replyToUid}&targetNickname=${encodeURIComponent(letter.replyToNickname || '对方')}&isFirst=false`
+      url: `/pages/letters/write/index?parentId=${letter._id}&targetNickname=${encodeURIComponent(letter.replyToNickname || '对方')}&isFirst=false`
+    })
+  },
+
+  async onArchive() {
+    const { letter } = this.data
+    if (!letter || letter.isRecipient !== false) return
+    wx.showModal({
+      title: '归档信件',
+      content: '归档后该信件不会出现在已发出列表，确认归档？',
+      success: async (res) => {
+        if (!res.confirm) return
+        try {
+          const result = await api.archiveLetter(letter._id)
+          if (result.code === 0) {
+            wx.showToast({ title: '已归档', icon: 'success' })
+            setTimeout(() => wx.navigateBack(), 1000)
+          } else {
+            wx.showToast({ title: result.message || '归档失败', icon: 'none' })
+          }
+        } catch (err) {
+          wx.showToast({ title: '网络异常，请稍后重试', icon: 'none' })
+        }
+      }
     })
   },
 

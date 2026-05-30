@@ -37,7 +37,10 @@
 
       <!-- 操作栏 -->
       <view class="action-bar">
-        <view class="btn btn-primary reply-btn" bindtap="onReply">
+        <view wx:if="{{letter.isRecipient === false}}" class="btn btn-ghost archive-btn" bindtap="onArchive">
+          <text>归档</text>
+        </view>
+        <view class="btn btn-primary reply-btn {{letter.isRecipient === false ? 'reply-btn-half' : ''}}" bindtap="onReply">
           <text>回信</text>
         </view>
       </view>
