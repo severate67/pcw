@@ -1,5 +1,5 @@
 {
-  "appid": "wx409a9f4069604116",
+  "appid": "",
   "compileType": "miniprogram",
   "libVersion": "3.0.0",
   "packOptions": {
@@ -40,12 +40,7 @@
     "disableUseStrict": false,
     "minifyWXML": false,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
-    "compileWorklet": false,
-    "localPlugins": false,
-    "condition": false,
-    "swc": false,
-    "disableSWC": true
+    "useCompilerPlugins": false
   },
   "condition": {},
   "editorSetting": {
@@ -53,6 +48,5 @@
     "tabSize": 2
   },
   "miniprogramRoot": "miniprogram/",
-  "cloudfunctionRoot": "cloudfunctions/",
-  "simulatorPluginLibVersion": {}
+  "cloudfunctionRoot": "cloudfunctions/"
 }

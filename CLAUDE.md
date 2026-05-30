@@ -13,7 +13,8 @@
 - **平台**：微信小程序（基础库 3.0+）
 - **后端**：微信云开发 CloudBase（无服务器）
 - **数据库**：云数据库（MongoDB 文档型）
-- **当前阶段**：一期 MVP 开发
+- **当前阶段**：Sprint 1 — 基础框架（进行中）
+- **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
 
 ---
 
@@ -326,3 +327,43 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 ---
 
 *本文件随项目迭代更新，每个 Sprint 结束后检查是否需要同步修改。*
+
+---
+
+## Sprint 进度（快速查阅）
+
+| Sprint | 主题 | 状态 | 完成日期 |
+|--------|------|------|----------|
+| Sprint 0 | 需求与设计 | ✅ 已完成 | 2026-05-30 |
+| Sprint 1 | 基础框架 | 🔄 进行中 | — |
+| Sprint 2 | 书信核心（上） | ⬜ 未开始 | — |
+| Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
+| Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
+| Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
+| Sprint 6 | UI 精修 | ⬜ 未开始 | — |
+| Sprint 7 | 性能与安全 | ⬜ 未开始 | — |
+| Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
+
+## Sprint 0 完成情况（2026-05-30）
+
+**已完成：**
+- 高保真可点击 HTML 原型（`project/prototype/pingchat.html`）：首页 / 信箱 / 写信 / 拆信详情 / 情绪旅程 / 我的，含 Tweaks 主题切换
+- `docs/PRD.md`：全部 11 个页面功能需求文档
+- `docs/INTERFACE-DOC-v0.1.md`：18 个云函数 input/output 签名文档
+- `miniprogram/` 完整目录脚手架：11 页面 × 4 文件、10 组件 × 4 文件
+- `miniprogram/app.wxss`：7 个全局 CSS 颜色变量 + 5 个情绪色变量
+- `miniprogram/utils/`：api.js / validator.js / date.js
+- `cloudfunctions/`：18 个云函数已上传至 `cloud1-d0gh5vk6m6766834f`
+- 数据库集合已创建：`users` / `letters` / `moods` / `matches`（权限：仅创建者可读写）
+- 数据库索引已创建：`letters.{to_uid,status}` / `moods.{uid,date}` / `matches.{uid_a,updated_at}`
+- `project.config.json`：项目根目录配置，`miniprogramRoot` + `cloudfunctionRoot` 已指向正确路径
+
+**待人工完成：**
+- 微信订阅消息模板申请（来信提醒 / 情绪记忆提醒）
+
+## 已知环境信息
+
+- **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
+- **云函数数量**：18 个（均已上传，当前为 Sprint 0 stub，Sprint 1 开始逐步实现）
+- **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
+- **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
