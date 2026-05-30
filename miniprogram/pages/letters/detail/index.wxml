@@ -27,7 +27,7 @@
         </view>
         <view class="sender-info">
           <text class="sender-name">{{letter.senderNickname || '陌生人'}}</text>
-          <text class="sender-time">{{letter.created_at}}</text>
+          <text class="sender-time">{{letter.timeDisplay}}</text>
         </view>
         <text class="sender-arrow">›</text>
       </view>

@@ -1,5 +1,6 @@
 // pages/letters/detail/index.js — 信件详情（含拆信动画）
 const api = require('../../../utils/api')
+const dateUtil = require('../../../utils/date')
 
 const ANIM_STATE = {
   IDLE: 'idle',
@@ -36,7 +37,12 @@ Page({
     try {
       const res = await api.getLetter(letterId)
       if (res.code === 0) {
-        this.setData({ letter: res.data })
+        const letter = {
+          ...res.data,
+          timeDisplay: dateUtil.relativeTime(res.data.created_at),
+          dateDisplay: dateUtil.formatDate(res.data.created_at, 'YYYY年MM月DD日')
+        }
+        this.setData({ letter })
         // 如果信件尚未打开（status === 'sent'），触发拆信动画
         if (res.data && res.data.status === 'sent') {
           this._startOpenAnimation()
@@ -69,13 +75,14 @@ Page({
     const { letter } = this.data
     if (!letter) return
     wx.navigateTo({
-      url: `/pages/letters/write/index?targetUid=${letter.from_uid}&isFirst=false`
+      url: `/pages/letters/write/index?targetUid=${letter.replyToUid}&targetNickname=${encodeURIComponent(letter.replyToNickname || '对方')}&isFirst=false`
     })
   },
 
   goToProfile() {
     const { letter } = this.data
     if (!letter) return
-    wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${letter.from_uid}` })
+    // 跳转到对方的主页（replyToUid 即为对方的 uid）
+    wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${letter.replyToUid}` })
   }
 })

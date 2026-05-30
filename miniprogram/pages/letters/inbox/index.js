@@ -1,6 +1,5 @@
 // pages/letters/inbox/index.js — 收件箱
 const api = require('../../../utils/api')
-const dateUtil = require('../../../utils/date')
 
 Page({
   data: {
@@ -56,6 +55,14 @@ Page({
   goToDetail(e) {
     const { letterId } = e.currentTarget.dataset
     wx.navigateTo({ url: `/pages/letters/detail/index?letterId=${letterId}` })
+  },
+
+  goToSent() {
+    wx.navigateTo({ url: '/pages/letters/sent/index' })
+  },
+
+  goToMatch() {
+    wx.navigateTo({ url: '/pages/match/index/index' })
   },
 
   goToWrite() {

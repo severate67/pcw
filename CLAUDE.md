@@ -335,8 +335,8 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint | 主题 | 状态 | 完成日期 |
 |--------|------|------|----------|
 | Sprint 0 | 需求与设计 | ✅ 已完成 | 2026-05-30 |
-| Sprint 1 | 基础框架 | 🔄 进行中 | — |
-| Sprint 2 | 书信核心（上） | ⬜ 未开始 | — |
+| Sprint 1 | 基础框架 | ✅ 已完成 | 2026-05-30 |
+| Sprint 2 | 书信核心（上） | ✅ 已完成 | 2026-05-30 |
 | Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
 | Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
 | Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
@@ -361,9 +361,32 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **待人工完成：**
 - 微信订阅消息模板申请（来信提醒 / 情绪记忆提醒）
 
+## Sprint 2 完成情况（2026-05-30）
+
+**已完成：**
+- `pages/letters/write/`：写信页完整实现（字数校验、内容安全、发送流程）
+- `pages/letters/inbox/`：收件箱完整实现（分页加载、下拉刷新、上拉加载更多）
+- `pages/letters/sent/`：已发出列表完整实现（receiverNickname 映射）
+- `pages/letters/detail/`：信件详情 + 拆信动画完整实现（5阶段状态机）
+- `cloudfunctions/sendLetter/`：发信云函数（字数校验、内容安全、写入 letters）
+- `cloudfunctions/getLetter/`：取信云函数（权限校验、自动标 read、返回 replyToUid）
+- `cloudfunctions/replyLetter/`：回信云函数（权限校验、字数校验）
+- `cloudfunctions/getInbox/`：收件箱云函数（分页、批量获取 senderNickname）
+- `cloudfunctions/getSent/`：已发出云函数（分页、批量获取 receiverNickname）
+- `cloudfunctions/moderateContent/`：内容安全审核（微信 API v2）
+- `components/letter-paper/`：信纸组件（横线背景、日期格式化）
+- `components/open-animation/`：拆信动画组件（5阶段 wx.createAnimation）
+- `components/envelope-card/`：信封卡片组件（未读红点、相对时间）
+- `components/seal-stamp/`：蜡封印章组件（按压动画、激活态）
+- `app.js`：启动时检查用户是否注册，未注册跳转 onboarding
+
+**已知限制（后续 Sprint 处理）：**
+- 订阅消息推送（来信提醒）：TODO，需用户申请模板
+- 信件归档功能：计划 Sprint 3 实现
+
 ## 已知环境信息
 
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
-- **云函数数量**：18 个（均已上传，当前为 Sprint 0 stub，Sprint 1 开始逐步实现）
+- **云函数数量**：18 个（均已上传，Sprint 2 完成核心书信函数）
 - **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
 - **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
