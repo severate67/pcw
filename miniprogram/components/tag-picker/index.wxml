@@ -4,12 +4,12 @@
     <view
       wx:for="{{presetTags}}"
       wx:key="*this"
-      class="tag-option {{selected.indexOf(item) >= 0 ? 'tag-selected' : ''}}"
+      class="tag-option {{_selected.indexOf(item) >= 0 ? 'tag-selected' : ''}}"
       bindtap="toggleTag"
       data-tag="{{item}}"
     >
       <text>{{item}}</text>
     </view>
   </view>
-  <text class="tag-hint">已选 {{selected.length}} 个（需{{min}}-{{max}}个）</text>
+  <text class="tag-hint">已选 {{_selected.length}} 个（需{{min}}-{{max}}个）</text>
 </view>

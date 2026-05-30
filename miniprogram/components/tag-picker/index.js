@@ -14,7 +14,11 @@ Component({
   properties: {
     selected: {
       type: Array,
-      value: []
+      value: [],
+      observer(newVal) {
+        // 将 property 同步到 data，确保 WXML 重渲染
+        this.setData({ _selected: newVal || [] })
+      }
     },
     max: {
       type: Number,
@@ -27,13 +31,14 @@ Component({
   },
 
   data: {
-    presetTags: PRESET_TAGS
+    presetTags: PRESET_TAGS,
+    _selected: []
   },
 
   methods: {
     toggleTag(e) {
       const { tag } = e.currentTarget.dataset
-      const selected = [...this.properties.selected]
+      const selected = [...this.data._selected]
       const idx = selected.indexOf(tag)
 
       if (idx >= 0) {
@@ -46,6 +51,7 @@ Component({
         selected.push(tag)
       }
 
+      this.setData({ _selected: selected })
       this.triggerEvent('change', { value: selected })
     }
   }
