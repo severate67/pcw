@@ -1,0 +1,69 @@
+<!-- pages/letters/write/index.wxml — 写信页 -->
+<view class="page-container">
+
+  <!-- 收信人信息 -->
+  <view class="recipient-bar">
+    <text class="recipient-label">致：</text>
+    <text class="recipient-name">{{targetNickname || '请选择收信人'}}</text>
+  </view>
+
+  <!-- 信纸区域 -->
+  <view class="letter-paper card">
+
+    <!-- 标题输入 -->
+    <view class="title-area">
+      <input
+        class="title-input"
+        placeholder="信件标题（选填，最多30字）"
+        placeholder-class="placeholder"
+        maxlength="30"
+        value="{{title}}"
+        bindinput="onTitleInput"
+      />
+    </view>
+
+    <view class="paper-divider"></view>
+
+    <!-- 正文输入 -->
+    <view class="content-area">
+      <textarea
+        class="content-textarea"
+        placeholder="{{isFirst ? '写下你想对TA说的话吧（至少150字）' : '写下你的回信（至少100字）'}}"
+        placeholder-class="placeholder"
+        auto-height="true"
+        maxlength="-1"
+        value="{{content}}"
+        bindinput="onContentInput"
+        show-confirm-bar="false"
+      />
+    </view>
+
+    <!-- 字数计数 -->
+    <view class="counter-bar">
+      <text class="counter-text {{canSend ? 'counter-ok' : 'counter-warn'}}">
+        {{wordCount}} / {{required}} 字
+      </text>
+      <text wx:if="{{!canSend && wordCount > 0}}" class="counter-hint">
+        还需 {{required - wordCount}} 字
+      </text>
+    </view>
+
+  </view>
+
+  <!-- 装饰性横线 -->
+  <view class="paper-lines">
+    <view class="paper-line" wx:for="{{[1,2,3]}}" wx:key="*this"></view>
+  </view>
+
+  <!-- 发送按钮（蜡封组件） -->
+  <view class="send-area">
+    <seal-stamp sealed="{{!canSend}}" bind:tap="onSend" />
+    <view
+      class="btn btn-primary send-btn {{!canSend || sending ? 'btn-disabled' : ''}}"
+      bindtap="onSend"
+    >
+      <text>{{sending ? '寄出中...' : '封存寄出'}}</text>
+    </view>
+  </view>
+
+</view>

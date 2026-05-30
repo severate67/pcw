@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "灵魂匹配",
+  "usingComponents": {
+    "soul-card": "../../../components/soul-card/index"
+  }
+}

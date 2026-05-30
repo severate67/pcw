@@ -1,0 +1,89 @@
+/* components/soul-card/index.wxss — 灵魂匹配卡样式 */
+
+.soul-card {
+  background-color: var(--color-paper);
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(58, 42, 26, 0.08);
+  padding: 24rpx;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.avatar-char {
+  font-size: 32rpx;
+  color: #ffffff;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 28rpx;
+  color: var(--color-ink);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.score-label {
+  font-size: 20rpx;
+  color: var(--color-ink-secondary);
+}
+
+.score-value {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.intro-area {
+  margin-bottom: 16rpx;
+}
+
+.intro-text {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  line-height: 1.7;
+}
+
+.common-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  align-items: center;
+}
+
+.common-tag {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 16rpx;
+}
+
+.more-tags {
+  font-size: 20rpx;
+  color: var(--color-ink-secondary);
+}

@@ -1,0 +1,48 @@
+<!-- components/open-animation/index.wxml — 拆信动画 -->
+<view class="anim-container">
+
+  <!-- 信封主体 -->
+  <view class="envelope-wrap">
+
+    <!-- 信封底部 -->
+    <view class="envelope-body-bg">
+
+      <!-- 蜡封印章 -->
+      <view
+        class="seal-circle"
+        animation="{{sealAnimation}}"
+      >
+        <text class="seal-char">平</text>
+      </view>
+
+    </view>
+
+    <!-- 封口翻折 -->
+    <view
+      class="envelope-flap-anim"
+      animation="{{flapAnimation}}"
+    >
+      <view class="flap-inner"></view>
+    </view>
+
+    <!-- 信纸滑出 -->
+    <view
+      class="paper-slide"
+      animation="{{paperAnimation}}"
+    >
+
+      <!-- 文字淡入 -->
+      <view class="paper-text" animation="{{textAnimation}}">
+        <text class="anim-text-placeholder">正在展开...</text>
+      </view>
+
+      <!-- 签名淡入 -->
+      <view class="paper-sign" animation="{{signAnimation}}">
+        <text class="anim-sign-placeholder">——</text>
+      </view>
+
+    </view>
+
+  </view>
+
+</view>

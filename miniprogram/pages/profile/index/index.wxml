@@ -1,0 +1,88 @@
+<!-- pages/profile/index/index.wxml — 我的 -->
+<view class="page-container">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text>加载中...</text>
+  </view>
+
+  <view wx:elif="{{userInfo}}">
+
+    <!-- 用户信息头部 -->
+    <view class="profile-header">
+      <view class="avatar-wrap">
+        <view class="avatar">
+          <text class="avatar-text">{{userInfo.nickname ? userInfo.nickname[0] : '我'}}</text>
+        </view>
+      </view>
+      <view class="user-info">
+        <text class="user-name">{{userInfo.nickname}}</text>
+        <text class="user-intro text-ellipsis-2">{{userInfo.intro}}</text>
+      </view>
+      <view class="edit-btn" bindtap="goToEdit">
+        <text>编辑</text>
+      </view>
+    </view>
+
+    <!-- 标签 -->
+    <view class="tags-section">
+      <view
+        wx:for="{{userInfo.tags}}"
+        wx:key="*this"
+        class="tag"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 数据统计 -->
+    <view class="stats-section card">
+      <view class="stat-item" bindtap="goToSent">
+        <text class="stat-num">{{stats.lettersSent}}</text>
+        <text class="stat-label">已发出</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="goToInbox">
+        <text class="stat-num">{{stats.lettersReceived}}</text>
+        <text class="stat-label">已收到</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="goToJourney">
+        <text class="stat-num">{{stats.moodDays}}</text>
+        <text class="stat-label">记录天数</text>
+      </view>
+    </view>
+
+    <!-- 功能菜单 -->
+    <view class="menu-section card">
+      <view class="menu-item" bindtap="goToSent">
+        <text class="menu-icon">✉</text>
+        <text class="menu-label">已发出的信</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="goToJourney">
+        <text class="menu-icon">📖</text>
+        <text class="menu-label">情绪旅程</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="goToEdit">
+        <text class="menu-icon">✏</text>
+        <text class="menu-label">编辑资料</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 会员状态 -->
+    <view class="member-section card">
+      <view class="member-info">
+        <text class="member-title">{{userInfo.is_member ? '会员用户' : '普通用户'}}</text>
+        <text class="member-sub">{{userInfo.is_member ? '每日5位灵魂推荐' : '每日3位灵魂推荐'}}</text>
+      </view>
+      <view wx:if="{{!userInfo.is_member}}" class="member-upgrade">
+        <text>升级会员</text>
+      </view>
+    </view>
+
+  </view>
+
+</view>

@@ -1,0 +1,66 @@
+<!-- components/emotion-calendar/index.wxml — 情绪月历 -->
+<view class="calendar-wrap">
+
+  <!-- 星期头部 -->
+  <view class="weekday-row">
+    <view
+      wx:for="{{weekDays}}"
+      wx:key="*this"
+      class="weekday-cell"
+    >
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 日历格 -->
+  <view class="weeks-container">
+    <view
+      wx:for="{{weeks}}"
+      wx:key="index"
+      class="week-row"
+    >
+      <view
+        wx:for="{{item}}"
+        wx:for-item="day"
+        wx:key="index"
+        class="day-cell {{day.empty ? 'day-empty' : ''}} {{day.isToday ? 'day-today' : ''}} {{day.isFuture ? 'day-future' : ''}}"
+        bindtap="onDayTap"
+        data-date="{{day.date}}"
+        data-mood="{{day.mood}}"
+      >
+        <view wx:if="{{!day.empty}}">
+          <view
+            class="day-dot"
+            style="{{day.mood ? 'background-color:' + day.color : ''}}"
+          ></view>
+          <text class="day-num">{{day.day}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图例 -->
+  <view class="legend-row">
+    <view class="legend-item">
+      <view class="legend-dot" style="background-color:#C4622D"></view>
+      <text>开心</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background-color:#2E6E65"></view>
+      <text>平静</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background-color:#5A3D7A"></view>
+      <text>难过</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background-color:#8C5E00"></view>
+      <text>焦虑</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot" style="background-color:#7A5C3E"></view>
+      <text>复杂</text>
+    </view>
+  </view>
+
+</view>

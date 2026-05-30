@@ -1,0 +1,119 @@
+<!-- pages/profile/edit/index.wxml — 编辑资料 -->
+<view class="page-container">
+
+  <view class="form-body">
+
+    <!-- 昵称 -->
+    <view class="form-section card">
+      <text class="form-label">昵称</text>
+      <input
+        class="form-input"
+        placeholder="给自己起个好听的名字"
+        placeholder-class="placeholder"
+        maxlength="20"
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+      />
+    </view>
+
+    <!-- 一句话介绍 -->
+    <view class="form-section card">
+      <view class="form-label-row">
+        <text class="form-label">一句话介绍</text>
+        <text class="form-count {{introValid ? 'count-ok' : 'count-warn'}}">{{introCount}}/20-60字</text>
+      </view>
+      <textarea
+        class="form-textarea"
+        placeholder="用一段话介绍自己，让对方更了解你（20-60字）"
+        placeholder-class="placeholder"
+        maxlength="200"
+        value="{{intro}}"
+        bindinput="onIntroInput"
+        auto-height="true"
+        show-confirm-bar="false"
+      />
+    </view>
+
+    <!-- 兴趣标签 -->
+    <view class="form-section card">
+      <view class="form-label-row">
+        <text class="form-label">兴趣标签</text>
+        <text class="form-count">已选 {{tags.length}}/3-5个</text>
+      </view>
+      <tag-picker
+        selected="{{tags}}"
+        min="{{3}}"
+        max="{{5}}"
+        bind:change="onTagsChange"
+      />
+    </view>
+
+    <!-- 活跃时段 -->
+    <view class="form-section card">
+      <text class="form-label">常在何时</text>
+      <view class="options-row">
+        <view
+          class="option-item {{activeTime === 'morning' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="morning"
+        >
+          <text>清晨</text>
+        </view>
+        <view
+          class="option-item {{activeTime === 'afternoon' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="afternoon"
+        >
+          <text>午后</text>
+        </view>
+        <view
+          class="option-item {{activeTime === 'night' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="night"
+        >
+          <text>夜深</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 书信频率 -->
+    <view class="form-section card">
+      <text class="form-label">书信频率</text>
+      <view class="options-row">
+        <view
+          class="option-item {{letterFreq === 'weekly' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="weekly"
+        >
+          <text>每周一封</text>
+        </view>
+        <view
+          class="option-item {{letterFreq === 'biweekly' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="biweekly"
+        >
+          <text>两周一封</text>
+        </view>
+        <view
+          class="option-item {{letterFreq === 'free' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="free"
+        >
+          <text>随缘</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-bar">
+    <view
+      class="btn btn-primary save-btn {{saving ? 'btn-disabled' : ''}}"
+      bindtap="onSave"
+    >
+      <text>{{saving ? '保存中...' : '保存'}}</text>
+    </view>
+  </view>
+
+</view>

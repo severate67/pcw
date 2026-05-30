@@ -1,0 +1,102 @@
+// pages/index/index.js — 首页
+const api = require('../../utils/api')
+const dateUtil = require('../../utils/date')
+
+Page({
+  data: {
+    userInfo: null,
+    moodDone: false,
+    recentLetters: [],
+    memoryToday: null,
+    dailyMatches: [],
+    loading: true,
+    today: ''
+  },
+
+  onLoad() {
+    const today = dateUtil.formatDate(new Date(), 'YYYY-MM-DD')
+    this.setData({ today })
+    this._loadPageData()
+  },
+
+  onShow() {
+    // 每次回到首页刷新收件箱前两条
+    this._loadInbox()
+  },
+
+  async _loadPageData() {
+    try {
+      const [userRes, memoryRes, recommendRes] = await Promise.all([
+        api.getUser(),
+        api.getMemoryToday(),
+        api.getDailyRecommend()
+      ])
+
+      if (userRes.code === 0) {
+        this.setData({ userInfo: userRes.data })
+        // 同步到全局
+        getApp().globalData.userInfo = userRes.data
+      }
+
+      if (memoryRes.code === 0) {
+        this.setData({ memoryToday: memoryRes.data })
+      }
+
+      if (recommendRes.code === 0) {
+        // 首页只展示前 2 个推荐
+        this.setData({ dailyMatches: (recommendRes.data || []).slice(0, 2) })
+      }
+    } catch (err) {
+      console.error('[index] _loadPageData error:', err)
+      wx.showToast({ title: '网络异常，请稍后重试', icon: 'none' })
+    } finally {
+      this.setData({ loading: false })
+    }
+  },
+
+  async _loadInbox() {
+    try {
+      const res = await api.getInbox(0)
+      if (res.code === 0) {
+        this.setData({ recentLetters: (res.data || []).slice(0, 2) })
+      }
+    } catch (err) {
+      console.error('[index] _loadInbox error:', err)
+    }
+  },
+
+  // 情绪记录完成回调
+  onMoodSaved(e) {
+    this.setData({ moodDone: true })
+    wx.showToast({ title: '情绪已记录', icon: 'success' })
+  },
+
+  // 跳转收件箱
+  goToInbox() {
+    wx.switchTab({ url: '/pages/letters/inbox/index' })
+  },
+
+  // 跳转灵魂匹配
+  goToMatch() {
+    wx.navigateTo({ url: '/pages/match/index/index' })
+  },
+
+  // 跳转对方主页
+  goToProfile(e) {
+    const { targetUid } = e.currentTarget.dataset
+    wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${targetUid}` })
+  },
+
+  // 跳转信件详情
+  goToDetail(e) {
+    const { letterId } = e.currentTarget.dataset
+    wx.navigateTo({ url: `/pages/letters/detail/index?letterId=${letterId}` })
+  },
+
+  // 去年的今天跳转
+  goToMemory() {
+    if (this.data.memoryToday) {
+      wx.navigateTo({ url: `/pages/letters/detail/index?letterId=${this.data.memoryToday._id}` })
+    }
+  }
+})

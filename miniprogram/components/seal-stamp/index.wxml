@@ -1,0 +1,11 @@
+<!-- components/seal-stamp/index.wxml — 蜡封印章 -->
+<view
+  class="stamp-wrap {{sealed ? 'stamp-sealed' : 'stamp-open'}}"
+  animation="{{stampAnimation}}"
+  bindtap="onTap"
+>
+  <view class="stamp-circle">
+    <text class="stamp-char">平</text>
+  </view>
+  <text class="stamp-label">{{sealed ? '未封存' : '已封存'}}</text>
+</view>

@@ -1,0 +1,45 @@
+<!-- pages/letters/sent/index.wxml — 已发出 -->
+<view class="page-container">
+
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view class="tab-item" bindtap="goToInbox">
+      <text>收件箱</text>
+    </view>
+    <view class="tab-item tab-active">
+      <text>已发出</text>
+    </view>
+  </view>
+
+  <!-- 已发出信件列表 -->
+  <view class="letter-list" wx:if="{{letters.length > 0}}">
+    <view
+      wx:for="{{letters}}"
+      wx:key="_id"
+      class="letter-item"
+      bindtap="goToDetail"
+      data-letter-id="{{item._id}}"
+    >
+      <envelope-card letter="{{item}}" show-unread="{{false}}" />
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{!loading}}" class="empty-state">
+    <view class="empty-icon">✉</view>
+    <text>还没有发出过信件</text>
+    <text class="empty-sub">找一个灵魂，写下你想说的话</text>
+    <view class="btn btn-primary empty-btn" bindtap="goToWrite">写一封信</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 没有更多 -->
+  <view wx:if="{{!hasMore && letters.length > 0}}" class="no-more">
+    <text>已显示全部发出信件</text>
+  </view>
+
+</view>

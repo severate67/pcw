@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "写信",
+  "usingComponents": {
+    "seal-stamp": "../../../components/seal-stamp/index",
+    "counter-input": "../../../components/counter-input/index"
+  }
+}

@@ -1,0 +1,62 @@
+/* components/counter-input/index.wxss — 字数计数输入框样式 */
+
+.counter-input-wrap {
+  width: 100%;
+}
+
+.input-area {
+  width: 100%;
+  min-height: 300rpx;
+  font-size: 28rpx;
+  color: var(--color-ink);
+  font-family: 'Noto Serif SC', serif;
+  line-height: 1.9;
+}
+
+.placeholder {
+  color: var(--color-ink-secondary);
+  opacity: 0.5;
+}
+
+.counter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 12rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid var(--color-gold);
+}
+
+.progress-track {
+  flex: 1;
+  height: 6rpx;
+  background-color: var(--color-paper);
+  border-radius: 3rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3rpx;
+  background-color: var(--color-ink-secondary);
+  transition: width 0.2s ease;
+}
+
+.progress-ok {
+  background-color: var(--m-calm);
+}
+
+.progress-warn {
+  background-color: var(--color-accent);
+}
+
+.counter-text {
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.text-ok {
+  color: var(--m-calm);
+}

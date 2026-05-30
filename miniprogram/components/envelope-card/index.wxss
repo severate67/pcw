@@ -1,0 +1,126 @@
+/* components/envelope-card/index.wxss — 信封卡片样式 */
+
+.envelope-card {
+  position: relative;
+  background-color: var(--color-paper);
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(58, 42, 26, 0.08);
+  overflow: hidden;
+}
+
+.unread-dot {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 8rpx;
+  background-color: var(--color-seal);
+  z-index: 1;
+}
+
+.envelope-top {
+  height: 20rpx;
+  background-color: var(--color-gold);
+  opacity: 0.4;
+  position: relative;
+}
+
+.envelope-flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 0;
+  border-left: 50vw solid transparent;
+  border-right: 50vw solid transparent;
+  border-top: 20rpx solid var(--color-paper);
+}
+
+.envelope-body {
+  padding: 20rpx 24rpx 24rpx;
+}
+
+.sender-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.sender-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.avatar-char {
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.sender-info {
+  flex: 1;
+}
+
+.sender-name {
+  font-size: 26rpx;
+  color: var(--color-ink);
+  font-weight: bold;
+  display: block;
+}
+
+.letter-time {
+  font-size: 20rpx;
+  color: var(--color-ink-secondary);
+  margin-top: 2rpx;
+}
+
+.status-badge {
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 10rpx;
+}
+
+.status-sent {
+  background-color: var(--color-seal);
+  color: #ffffff;
+}
+
+.status-read {
+  background-color: var(--color-gold);
+  color: var(--color-primary);
+}
+
+.letter-title {
+  font-size: 28rpx;
+  color: var(--color-ink);
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+
+.letter-excerpt {
+  margin-bottom: 12rpx;
+}
+
+.excerpt-text {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  line-height: 1.6;
+}
+
+.letter-meta {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.word-count {
+  font-size: 20rpx;
+  color: var(--color-ink-secondary);
+  opacity: 0.7;
+}

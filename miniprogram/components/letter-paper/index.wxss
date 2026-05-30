@@ -1,0 +1,87 @@
+/* components/letter-paper/index.wxss — 信纸容器样式 */
+
+.letter-paper-wrap {
+  position: relative;
+  margin: 0 24rpx 24rpx;
+}
+
+.paper {
+  background-color: var(--color-paper);
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 16rpx rgba(58, 42, 26, 0.12);
+  display: flex;
+  overflow: hidden;
+  min-height: 600rpx;
+}
+
+.red-margin {
+  width: 6rpx;
+  background-color: var(--color-seal);
+  opacity: 0.7;
+  flex-shrink: 0;
+  margin-right: 32rpx;
+}
+
+.paper-body {
+  flex: 1;
+  padding: 32rpx 32rpx 32rpx 0;
+}
+
+.letter-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid var(--color-gold);
+}
+
+.letter-content {
+  margin-bottom: 40rpx;
+}
+
+.content-text {
+  font-size: 28rpx;
+  color: var(--color-ink);
+  line-height: 2;
+  display: block;
+}
+
+.letter-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 24rpx;
+  border-top: 1rpx solid var(--color-gold);
+  opacity: 0.8;
+}
+
+.footer-date {
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+  margin-bottom: 8rpx;
+}
+
+.footer-sign {
+  font-size: 24rpx;
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+/* 横线背景 */
+.lines-overlay {
+  position: absolute;
+  top: 0;
+  left: 6rpx;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 12rpx;
+}
+
+.line {
+  height: 56rpx;
+  border-bottom: 1rpx solid var(--color-gold);
+  opacity: 0.15;
+}

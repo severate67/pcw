@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "此刻",
+  "usingComponents": {
+    "mood-widget": "../../components/mood-widget/index",
+    "soul-card": "../../components/soul-card/index",
+    "envelope-card": "../../components/envelope-card/index"
+  }
+}

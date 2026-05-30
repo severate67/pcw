@@ -1,0 +1,50 @@
+<!-- pages/letters/inbox/index.wxml — 收件箱 -->
+<view class="page-container">
+
+  <!-- 已发出入口 -->
+  <view class="tab-bar">
+    <view class="tab-item tab-active">
+      <text>收件箱</text>
+    </view>
+    <view class="tab-item" bindtap="goToSent">
+      <text>已发出</text>
+    </view>
+  </view>
+
+  <!-- 信件列表 -->
+  <view class="letter-list" wx:if="{{letters.length > 0}}">
+    <view
+      wx:for="{{letters}}"
+      wx:key="_id"
+      class="letter-item"
+      bindtap="goToDetail"
+      data-letter-id="{{item._id}}"
+    >
+      <envelope-card letter="{{item}}" show-unread="{{true}}" />
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{!loading}}" class="empty-state">
+    <view class="empty-icon">✉</view>
+    <text>还没有来信</text>
+    <text class="empty-sub">去发现灵魂匹配，开始你的第一封信</text>
+    <view class="btn btn-primary empty-btn" bindtap="goToMatch">去看看推荐</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 加载更多 -->
+  <view wx:if="{{!hasMore && letters.length > 0}}" class="no-more">
+    <text>已显示全部来信</text>
+  </view>
+
+  <!-- 写信悬浮按钮 -->
+  <view class="fab" bindtap="goToWrite">
+    <text class="fab-icon">✍</text>
+  </view>
+
+</view>

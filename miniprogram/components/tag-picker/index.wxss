@@ -1,0 +1,34 @@
+/* components/tag-picker/index.wxss — 标签选择器样式 */
+
+.tag-picker-wrap {
+  width: 100%;
+}
+
+.tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.tag-option {
+  padding: 12rpx 24rpx;
+  border-radius: 20rpx;
+  font-size: 26rpx;
+  color: var(--color-ink-secondary);
+  background-color: var(--color-bg);
+  border: 2rpx solid var(--color-gold);
+}
+
+.tag-selected {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.tag-hint {
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+  display: block;
+  text-align: center;
+}

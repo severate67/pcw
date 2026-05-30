@@ -1,0 +1,15 @@
+<!-- components/tag-picker/index.wxml — 标签选择器 -->
+<view class="tag-picker-wrap">
+  <view class="tags-grid">
+    <view
+      wx:for="{{presetTags}}"
+      wx:key="*this"
+      class="tag-option {{selected.indexOf(item) >= 0 ? 'tag-selected' : ''}}"
+      bindtap="toggleTag"
+      data-tag="{{item}}"
+    >
+      <text>{{item}}</text>
+    </view>
+  </view>
+  <text class="tag-hint">已选 {{selected.length}} 个（需{{min}}-{{max}}个）</text>
+</view>

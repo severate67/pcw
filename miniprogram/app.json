@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/letters/inbox/index",
+    "pages/letters/sent/index",
+    "pages/letters/write/index",
+    "pages/letters/detail/index",
+    "pages/journey/index/index",
+    "pages/match/index/index",
+    "pages/match/profile/index",
+    "pages/profile/index/index",
+    "pages/profile/edit/index",
+    "pages/onboarding/index/index"
+  ],
+  "tabBar": {
+    "color": "#7A5C3E",
+    "selectedColor": "#5C3D20",
+    "backgroundColor": "#F5EFE0",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "此刻",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/letters/inbox/index",
+        "text": "信箱",
+        "iconPath": "assets/icons/inbox.png",
+        "selectedIconPath": "assets/icons/inbox-active.png"
+      },
+      {
+        "pagePath": "pages/journey/index/index",
+        "text": "旅程",
+        "iconPath": "assets/icons/journey.png",
+        "selectedIconPath": "assets/icons/journey-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index/index",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarBackgroundColor": "#5C3D20",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5EFE0"
+  },
+  "requiredBackgroundModes": [],
+  "sitemapLocation": "sitemap.json"
+}

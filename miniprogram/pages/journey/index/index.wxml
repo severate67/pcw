@@ -1,0 +1,73 @@
+<!-- pages/journey/index/index.wxml — 情绪旅程 -->
+<view class="page-container">
+
+  <!-- 月份选择器 -->
+  <view class="month-picker">
+    <view class="month-arrow" bindtap="prevMonth">‹</view>
+    <text class="month-label">{{currentYear}}年{{currentMonth}}月</text>
+    <view class="month-arrow" bindtap="nextMonth">›</view>
+  </view>
+
+  <!-- 情绪月历 -->
+  <view class="calendar-section">
+    <emotion-calendar
+      moods="{{moods}}"
+      year="{{currentYear}}"
+      month="{{currentMonth}}"
+      bind:dayTap="onDayTap"
+    />
+  </view>
+
+  <!-- 选中日期详情 -->
+  <view wx:if="{{selectedMood}}" class="mood-detail card">
+    <view class="mood-detail-header">
+      <text class="mood-date-label">{{selectedDay}}</text>
+      <view class="mood-badge mood-{{selectedMood.emotion}}">
+        <text>{{selectedMood.emotionLabel}}</text>
+      </view>
+    </view>
+    <view class="mood-intensity">
+      <text class="intensity-label">心情强度：</text>
+      <view class="intensity-dots">
+        <view
+          wx:for="{{[1,2,3,4,5]}}"
+          wx:key="*this"
+          class="intensity-dot {{item <= selectedMood.intensity ? 'dot-active mood-dot-' + selectedMood.emotion : ''}}"
+        ></view>
+      </view>
+    </view>
+    <view wx:if="{{selectedMood.diary}}" class="mood-diary">
+      <text>{{selectedMood.diary}}</text>
+    </view>
+  </view>
+
+  <view wx:elif="{{selectedDay && !selectedMood}}" class="mood-empty-day card">
+    <text class="mood-empty-text">{{selectedDay}} 没有情绪记录</text>
+  </view>
+
+  <!-- 情绪趋势折线图 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">近30天情绪走势</text>
+    </view>
+    <view class="chart-section card">
+      <trend-chart data="{{trend}}" wx:if="{{trend.length > 0}}" />
+      <view wx:else class="chart-empty">
+        <text class="chart-empty-text">记录今天的心情，开始你的情绪旅程</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 无记录空状态 -->
+  <view wx:elif="{{moods.length === 0}}" class="empty-state">
+    <text class="empty-icon">🌱</text>
+    <text>本月还没有情绪记录</text>
+    <text class="empty-sub">回到首页记录今天的心情</text>
+  </view>
+
+</view>

@@ -1,0 +1,171 @@
+/* pages/journey/index/index.wxss — 情绪旅程样式 */
+
+.page-container {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding-bottom: 40rpx;
+}
+
+.month-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-paper);
+  border-bottom: 1rpx solid var(--color-gold);
+}
+
+.month-arrow {
+  font-size: 48rpx;
+  color: var(--color-primary);
+  padding: 0 40rpx;
+  line-height: 1;
+}
+
+.month-label {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--color-primary);
+  min-width: 200rpx;
+  text-align: center;
+}
+
+.calendar-section {
+  margin: 24rpx;
+}
+
+.mood-detail {
+  margin: 0 24rpx 24rpx;
+  padding: 28rpx;
+}
+
+.mood-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.mood-date-label {
+  font-size: 26rpx;
+  color: var(--color-ink-secondary);
+}
+
+.mood-badge {
+  border-radius: 20rpx;
+  padding: 6rpx 20rpx;
+  font-size: 22rpx;
+}
+
+.mood-happy { background-color: var(--m-happy); color: #fff; }
+.mood-calm { background-color: var(--m-calm); color: #fff; }
+.mood-sad { background-color: var(--m-sad); color: #fff; }
+.mood-anxious { background-color: var(--m-anxious); color: #fff; }
+.mood-mixed { background-color: var(--m-mixed); color: #fff; }
+
+.mood-intensity {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.intensity-label {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  margin-right: 12rpx;
+}
+
+.intensity-dots {
+  display: flex;
+  gap: 8rpx;
+}
+
+.intensity-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 10rpx;
+  background-color: var(--color-paper);
+  border: 2rpx solid var(--color-gold);
+}
+
+.dot-active { border: none; }
+.mood-dot-happy { background-color: var(--m-happy); }
+.mood-dot-calm { background-color: var(--m-calm); }
+.mood-dot-sad { background-color: var(--m-sad); }
+.mood-dot-anxious { background-color: var(--m-anxious); }
+.mood-dot-mixed { background-color: var(--m-mixed); }
+
+.mood-diary {
+  font-size: 26rpx;
+  color: var(--color-ink);
+  line-height: 1.7;
+  padding-top: 12rpx;
+  border-top: 1rpx solid var(--color-gold);
+}
+
+.mood-empty-day {
+  margin: 0 24rpx 24rpx;
+  padding: 28rpx;
+  text-align: center;
+}
+
+.mood-empty-text {
+  font-size: 26rpx;
+  color: var(--color-ink-secondary);
+}
+
+.section {
+  margin: 0 24rpx 24rpx;
+}
+
+.section-header {
+  margin-bottom: 16rpx;
+}
+
+.chart-section {
+  padding: 24rpx;
+  min-height: 200rpx;
+}
+
+.chart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160rpx;
+}
+
+.chart-empty-text {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  text-align: center;
+}
+
+.loading-wrap {
+  text-align: center;
+  padding: 40rpx;
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 60rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-state text {
+  font-size: 28rpx;
+  color: var(--color-ink-secondary);
+  margin-bottom: 8rpx;
+}
+
+.empty-sub {
+  font-size: 24rpx !important;
+}

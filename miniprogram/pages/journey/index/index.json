@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "情绪旅程",
+  "usingComponents": {
+    "emotion-calendar": "../../../components/emotion-calendar/index",
+    "trend-chart": "../../../components/trend-chart/index"
+  }
+}

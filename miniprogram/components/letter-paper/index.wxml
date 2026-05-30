@@ -1,0 +1,38 @@
+<!-- components/letter-paper/index.wxml — 信纸容器 -->
+<view class="letter-paper-wrap">
+
+  <!-- 纸张容器 -->
+  <view class="paper">
+
+    <!-- 左侧红线边距 -->
+    <view class="red-margin"></view>
+
+    <!-- 信纸正文区 -->
+    <view class="paper-body">
+
+      <!-- 标题 -->
+      <view wx:if="{{letter && letter.title}}" class="letter-title">
+        <text>{{letter.title}}</text>
+      </view>
+
+      <!-- 内容 -->
+      <view class="letter-content">
+        <text class="content-text" user-select="false">{{letter ? letter.content : ''}}</text>
+      </view>
+
+      <!-- 日期与签名区 -->
+      <view class="letter-footer">
+        <text class="footer-date">{{letter ? letter.created_at : ''}}</text>
+        <text class="footer-sign">—— {{letter && letter.senderNickname ? letter.senderNickname : '作者'}}</text>
+      </view>
+
+    </view>
+
+  </view>
+
+  <!-- 横线背景装饰 -->
+  <view class="lines-overlay">
+    <view wx:for="{{lineCount}}" wx:key="*this" class="line"></view>
+  </view>
+
+</view>

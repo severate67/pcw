@@ -1,0 +1,58 @@
+// cloudfunctions/getLetter/index.js — 获取信件详情
+const cloud = require('wx-server-sdk')
+cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
+const db = cloud.database()
+
+exports.main = async (event, context) => {
+  const { OPENID } = cloud.getWXContext()
+  try {
+    const { id } = event
+    if (!id) {
+      return { code: 9001, data: null, message: '信件ID不能为空' }
+    }
+
+    const letterRes = await db.collection('letters').doc(id).get()
+    const letter = letterRes.data
+
+    if (!letter) {
+      return { code: 9001, data: null, message: '信件不存在' }
+    }
+
+    // 权限校验：只有发件人或收件人可读取
+    if (letter.from_uid !== OPENID && letter.to_uid !== OPENID) {
+      return { code: 9001, data: null, message: '无权限查看此信件' }
+    }
+
+    // 如果是收件人首次读取，更新状态为 read
+    if (letter.to_uid === OPENID && letter.status === 'sent') {
+      await db.collection('letters').doc(id).update({
+        data: {
+          status: 'read',
+          read_at: db.serverDate()
+        }
+      })
+      letter.status = 'read'
+    }
+
+    // 获取发件人昵称（只返回安全字段）
+    let senderNickname = '陌生人'
+    try {
+      const senderRes = await db.collection('users').doc(letter.from_uid).get()
+      if (senderRes.data) {
+        senderNickname = senderRes.data.nickname
+      }
+    } catch (e) {}
+
+    return {
+      code: 0,
+      data: {
+        ...letter,
+        senderNickname
+      },
+      message: 'ok'
+    }
+  } catch (err) {
+    console.error('[getLetter] error:', err)
+    return { code: 9001, data: null, message: err.message }
+  }
+}

@@ -1,0 +1,37 @@
+<!-- components/soul-card/index.wxml — 灵魂匹配卡 -->
+<view class="soul-card" bindtap="onTap">
+
+  <!-- 头部：头像 + 昵称 + 匹配度 -->
+  <view class="card-header">
+    <view class="avatar">
+      <text class="avatar-char">{{profile && profile.nickname ? profile.nickname[0] : '匿'}}</text>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{profile ? profile.nickname : ''}}</text>
+      <view class="score-wrap">
+        <text class="score-label">匹配度</text>
+        <text class="score-value" style="color: {{scoreColor}}">{{score}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 一句话介绍 -->
+  <view class="intro-area">
+    <text class="intro-text text-ellipsis-2">{{profile ? profile.intro : ''}}</text>
+  </view>
+
+  <!-- 共同标签 -->
+  <view wx:if="{{commonTags && commonTags.length > 0}}" class="common-tags">
+    <view
+      wx:for="{{commonTags}}"
+      wx:key="*this"
+      class="common-tag"
+    >
+      <text>{{item}}</text>
+    </view>
+    <text wx:if="{{profile && profile.tags && profile.tags.length > commonTags.length}}" class="more-tags">
+      +{{profile.tags.length - commonTags.length}}
+    </text>
+  </view>
+
+</view>

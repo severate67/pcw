@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "来信",
+  "usingComponents": {
+    "open-animation": "../../../components/open-animation/index",
+    "letter-paper": "../../../components/letter-paper/index"
+  }
+}

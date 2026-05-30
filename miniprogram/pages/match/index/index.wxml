@@ -1,0 +1,54 @@
+<!-- pages/match/index/index.wxml — 灵魂匹配 -->
+<view class="page-container">
+
+  <!-- 标题区 -->
+  <view class="page-header">
+    <text class="page-title">今日灵魂推荐</text>
+    <text class="page-sub">每日更新，真诚相遇</text>
+  </view>
+
+  <!-- 推荐列表 -->
+  <view wx:if="{{recommendations.length > 0}}" class="rec-list">
+    <view
+      wx:for="{{recommendations}}"
+      wx:key="_id"
+      class="rec-item"
+    >
+      <soul-card
+        profile="{{item.profile}}"
+        score="{{item.score}}"
+        common-tags="{{item.tagsCommon}}"
+      />
+      <view class="rec-actions">
+        <view
+          class="btn btn-ghost skip-btn"
+          bindtap="onSkip"
+          data-target-uid="{{item.profile._id}}"
+        >
+          跳过
+        </view>
+        <view
+          class="btn btn-primary write-btn"
+          bindtap="goToWrite"
+          data-target-uid="{{item.profile._id}}"
+          data-target-nickname="{{item.profile.nickname}}"
+        >
+          写信给TA
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日推荐已用完 -->
+  <view wx:elif="{{allUsed && !loading}}" class="empty-state">
+    <view class="empty-icon">🌙</view>
+    <text class="empty-title">今天的推荐已看完</text>
+    <text class="empty-sub">明天还会有新的灵魂与你相遇</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:elif="{{loading}}" class="loading-wrap">
+    <text>正在寻找灵魂...</text>
+  </view>
+
+</view>

@@ -1,0 +1,61 @@
+<!-- components/mood-widget/index.wxml — 情绪记录组件 -->
+<view class="mood-widget">
+
+  <!-- 情绪选择 -->
+  <view class="emotion-select">
+    <view
+      wx:for="{{emotions}}"
+      wx:key="key"
+      class="emotion-item {{selectedEmotion === item.key ? 'emotion-active' : ''}}"
+      style="{{selectedEmotion === item.key ? 'background-color:' + item.color + ';color:#fff;border-color:' + item.color : ''}}"
+      bindtap="selectEmotion"
+      data-key="{{item.key}}"
+    >
+      <text>{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 强度选择（1-5） -->
+  <view wx:if="{{selectedEmotion}}" class="intensity-section">
+    <text class="intensity-label">心情强度</text>
+    <view class="intensity-dots">
+      <view
+        wx:for="{{[1,2,3,4,5]}}"
+        wx:key="*this"
+        class="intensity-dot {{item <= intensity ? 'dot-filled' : ''}}"
+        bindtap="onIntensityTap"
+        data-level="{{item}}"
+      ></view>
+    </view>
+    <text class="intensity-hint">{{intensity === 1 ? '轻微' : (intensity === 5 ? '强烈' : '')}}</text>
+  </view>
+
+  <!-- 日记输入（选填） -->
+  <view wx:if="{{selectedEmotion}}" class="diary-section">
+    <view class="diary-label-row">
+      <text class="diary-label">写几句话（选填）</text>
+      <text class="diary-count {{!diaryValid ? 'count-warn' : ''}}">{{diaryCount}} 字</text>
+    </view>
+    <textarea
+      class="diary-input"
+      placeholder="此刻你想说什么...（若填写至少30字）"
+      placeholder-class="placeholder"
+      maxlength="-1"
+      value="{{diary}}"
+      bindinput="onDiaryInput"
+      auto-height="true"
+      show-confirm-bar="false"
+    />
+    <text wx:if="{{!diaryValid}}" class="diary-hint">日记内容需至少30字</text>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view
+    wx:if="{{selectedEmotion}}"
+    class="save-btn btn btn-primary {{saving ? 'btn-disabled' : ''}}"
+    bindtap="onSave"
+  >
+    <text>{{saving ? '记录中...' : '记录此刻'}}</text>
+  </view>
+
+</view>

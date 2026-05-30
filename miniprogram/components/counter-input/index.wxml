@@ -1,0 +1,24 @@
+<!-- components/counter-input/index.wxml — 字数计数输入框 -->
+<view class="counter-input-wrap">
+  <textarea
+    class="input-area"
+    placeholder="{{placeholder}}"
+    placeholder-class="placeholder"
+    value="{{value}}"
+    bindinput="onInput"
+    auto-height="true"
+    maxlength="-1"
+    show-confirm-bar="false"
+  />
+  <view class="counter-bar">
+    <view class="progress-track">
+      <view
+        class="progress-fill {{isValid ? 'progress-ok' : 'progress-warn'}}"
+        style="width: {{minCount > 0 ? Math.min(wordCount / minCount * 100, 100) : 100}}%"
+      ></view>
+    </view>
+    <text class="counter-text {{isValid ? 'text-ok' : ''}}">
+      {{wordCount}}{{minCount > 0 ? ' / ' + minCount + ' 字' : ' 字'}}
+    </text>
+  </view>
+</view>

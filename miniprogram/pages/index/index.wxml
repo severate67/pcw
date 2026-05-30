@@ -1,0 +1,85 @@
+<!-- pages/index/index.wxml — 首页 -->
+<view class="page-container">
+
+  <!-- 顶部 header -->
+  <view class="header">
+    <text class="header-title">平常</text>
+    <text class="header-date">{{today}}</text>
+  </view>
+
+  <!-- 今日心情卡片 -->
+  <view class="section mood-section">
+    <view wx:if="{{!moodDone}}" class="mood-prompt card">
+      <text class="mood-prompt-title">今天，你怎么样？</text>
+      <text class="mood-prompt-sub">记录此刻的心情</text>
+      <mood-widget bind:save="onMoodSaved" />
+    </view>
+    <view wx:else class="mood-done card">
+      <text class="mood-done-text">今日心情已记录</text>
+      <text class="mood-done-emoji">✓</text>
+    </view>
+  </view>
+
+  <!-- 去年的今天 -->
+  <view wx:if="{{memoryToday}}" class="section memory-section" bindtap="goToMemory">
+    <view class="section-header">
+      <text class="section-title">去年的今天</text>
+      <text class="section-more">查看 ›</text>
+    </view>
+    <view class="memory-card card">
+      <text class="memory-date">{{memoryToday.date}}</text>
+      <text class="memory-excerpt text-ellipsis-2">{{memoryToday.content}}</text>
+    </view>
+  </view>
+
+  <!-- 灵魂匹配 -->
+  <view class="section matches-section">
+    <view class="section-header">
+      <text class="section-title">今日灵魂推荐</text>
+      <text class="section-more" bindtap="goToMatch">全部 ›</text>
+    </view>
+    <scroll-view class="matches-scroll" scroll-x="true" show-scrollbar="false">
+      <view class="matches-list">
+        <view
+          wx:for="{{dailyMatches}}"
+          wx:key="_id"
+          class="match-item"
+          bindtap="goToProfile"
+          data-target-uid="{{item.profile._id}}"
+        >
+          <soul-card profile="{{item.profile}}" score="{{item.score}}" common-tags="{{item.tagsCommon}}" />
+        </view>
+        <view wx:if="{{dailyMatches.length === 0}}" class="matches-empty">
+          <text class="empty-hint">暂无推荐，稍后再来</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 最近来信 -->
+  <view class="section letters-section">
+    <view class="section-header">
+      <text class="section-title">最近来信</text>
+      <text class="section-more" bindtap="goToInbox">信箱 ›</text>
+    </view>
+    <view wx:if="{{recentLetters.length > 0}}">
+      <view
+        wx:for="{{recentLetters}}"
+        wx:key="_id"
+        bindtap="goToDetail"
+        data-letter-id="{{item._id}}"
+      >
+        <envelope-card letter="{{item}}" show-unread="{{true}}" />
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <text>还没有来信，去发现灵魂匹配吧</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+</view>

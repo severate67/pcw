@@ -1,0 +1,160 @@
+<!-- pages/onboarding/index/index.wxml — 注册引导 -->
+<view class="page-container">
+
+  <!-- 进度条 -->
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{(step / totalSteps) * 100}}%"></view>
+  </view>
+
+  <!-- 步骤指示 -->
+  <view class="step-indicator">
+    <text class="step-text">{{step}} / {{totalSteps}}</text>
+  </view>
+
+  <!-- ─── Step 1: 基本信息 ─────────────────────────────── -->
+  <view wx:if="{{step === 1}}" class="step-content">
+    <view class="step-header">
+      <text class="step-title">建立你的精神身份证</text>
+      <text class="step-sub">让对的灵魂找到你</text>
+    </view>
+
+    <view class="form-card card">
+      <text class="form-label">你的名字</text>
+      <input
+        class="form-input"
+        placeholder="给自己起个好听的名字（最多20字）"
+        placeholder-class="placeholder"
+        maxlength="20"
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+      />
+    </view>
+
+    <view class="form-card card">
+      <view class="form-label-row">
+        <text class="form-label">一句话介绍</text>
+        <text class="form-count {{introValid ? 'count-ok' : ''}}">{{introCount}} / 20-60字</text>
+      </view>
+      <textarea
+        class="form-textarea"
+        placeholder="用一段话介绍自己，写下你的兴趣、性格或此刻的状态..."
+        placeholder-class="placeholder"
+        maxlength="200"
+        value="{{intro}}"
+        bindinput="onIntroInput"
+        auto-height="true"
+        show-confirm-bar="false"
+      />
+    </view>
+
+    <view class="next-btn btn btn-primary" bindtap="goStep2">
+      <text>下一步</text>
+    </view>
+  </view>
+
+  <!-- ─── Step 2: 兴趣标签 ─────────────────────────────── -->
+  <view wx:elif="{{step === 2}}" class="step-content">
+    <view class="step-header">
+      <text class="step-title">选择你的兴趣标签</text>
+      <text class="step-sub">选3–5个，帮助找到同频的灵魂</text>
+    </view>
+
+    <view class="tags-grid">
+      <view
+        wx:for="{{presetTags}}"
+        wx:key="*this"
+        class="tag-option {{tags.indexOf(item) >= 0 ? 'tag-selected' : ''}}"
+        bindtap="toggleTag"
+        data-tag="{{item}}"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+
+    <text class="tags-count">已选 {{tags.length}} 个（需3-5个）</text>
+
+    <view class="btn-row">
+      <view class="btn btn-ghost back-btn" bindtap="goBackStep1">上一步</view>
+      <view class="btn btn-primary next-btn-half" bindtap="goStep3">下一步</view>
+    </view>
+  </view>
+
+  <!-- ─── Step 3: 偏好设置 ─────────────────────────────── -->
+  <view wx:elif="{{step === 3}}" class="step-content">
+    <view class="step-header">
+      <text class="step-title">你的书写节奏</text>
+      <text class="step-sub">帮助匹配志同道合的书写者</text>
+    </view>
+
+    <view class="form-card card">
+      <text class="form-label">你常在什么时候写信？</text>
+      <view class="options-row">
+        <view
+          class="option-item {{activeTime === 'morning' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="morning"
+        >
+          <text class="option-icon">🌅</text>
+          <text>清晨</text>
+        </view>
+        <view
+          class="option-item {{activeTime === 'afternoon' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="afternoon"
+        >
+          <text class="option-icon">☀</text>
+          <text>午后</text>
+        </view>
+        <view
+          class="option-item {{activeTime === 'night' ? 'option-active' : ''}}"
+          bindtap="onActiveTimeChange"
+          data-value="night"
+        >
+          <text class="option-icon">🌙</text>
+          <text>夜深</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-card card">
+      <text class="form-label">你期望多久交流一次？</text>
+      <view class="options-col">
+        <view
+          class="option-row-item {{letterFreq === 'weekly' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="weekly"
+        >
+          <text class="option-title">每周一封</text>
+          <text class="option-desc">保持频繁联系，分享日常</text>
+        </view>
+        <view
+          class="option-row-item {{letterFreq === 'biweekly' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="biweekly"
+        >
+          <text class="option-title">每两周一封</text>
+          <text class="option-desc">不急不缓，慢慢交流</text>
+        </view>
+        <view
+          class="option-row-item {{letterFreq === 'free' ? 'option-active' : ''}}"
+          bindtap="onLetterFreqChange"
+          data-value="free"
+        >
+          <text class="option-title">随缘</text>
+          <text class="option-desc">灵感来了就写，不受时间约束</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-row">
+      <view class="btn btn-ghost back-btn" bindtap="goBackStep2">上一步</view>
+      <view
+        class="btn btn-primary submit-btn {{submitting ? 'btn-disabled' : ''}}"
+        bindtap="onSubmit"
+      >
+        <text>{{submitting ? '建立中...' : '完成注册'}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

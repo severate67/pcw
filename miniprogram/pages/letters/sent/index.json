@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "已发出",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "envelope-card": "../../../components/envelope-card/index"
+  }
+}

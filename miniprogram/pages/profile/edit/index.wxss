@@ -1,0 +1,108 @@
+/* pages/profile/edit/index.wxss — 编辑资料样式 */
+
+.page-container {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding-bottom: 120rpx;
+}
+
+.form-body {
+  padding: 24rpx;
+}
+
+.form-section {
+  margin-bottom: 20rpx;
+  padding: 28rpx;
+}
+
+.form-label {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  display: block;
+  margin-bottom: 16rpx;
+  font-weight: bold;
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.form-count {
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+}
+
+.count-ok {
+  color: var(--m-calm);
+}
+
+.count-warn {
+  color: var(--color-accent);
+}
+
+.form-input {
+  width: 100%;
+  font-size: 28rpx;
+  color: var(--color-ink);
+  padding: 8rpx 0;
+  border-bottom: 1rpx solid var(--color-gold);
+}
+
+.form-textarea {
+  width: 100%;
+  font-size: 26rpx;
+  color: var(--color-ink);
+  line-height: 1.8;
+  min-height: 120rpx;
+}
+
+.placeholder {
+  color: var(--color-ink-secondary);
+  opacity: 0.5;
+}
+
+.options-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.option-item {
+  border-radius: 8rpx;
+  padding: 16rpx 28rpx;
+  font-size: 26rpx;
+  color: var(--color-ink-secondary);
+  background-color: var(--color-bg);
+  border: 2rpx solid var(--color-gold);
+}
+
+.option-active {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-bg);
+  border-top: 1rpx solid var(--color-paper);
+}
+
+.save-btn {
+  width: 100%;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.btn-disabled {
+  opacity: 0.4;
+}

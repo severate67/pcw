@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "信箱",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "envelope-card": "../../../components/envelope-card/index"
+  }
+}
