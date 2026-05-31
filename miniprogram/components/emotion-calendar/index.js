@@ -95,6 +95,11 @@ Component({
         })
       }
 
+      // 末尾补空格，确保最后一周满 7 格（保持列对齐）
+      while (days.length % 7 !== 0) {
+        days.push({ empty: true })
+      }
+
       // 按7个一组分周
       const weeks = []
       for (let i = 0; i < days.length; i += 7) {

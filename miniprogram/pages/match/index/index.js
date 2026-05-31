@@ -59,7 +59,8 @@ Page({
   },
 
   goToProfile(e) {
-    const { targetUid } = e.currentTarget.dataset
+    const targetUid = e.detail ? e.detail.targetUid : e.currentTarget.dataset.targetUid
+    if (!targetUid) return
     wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${targetUid}` })
   },
 
