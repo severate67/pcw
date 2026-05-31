@@ -32,7 +32,10 @@ Component({
   methods: {
     onTap() {
       if (!this.properties.profile) return
-      this.triggerEvent('tap', { targetUid: this.properties.profile._id })
+      this.triggerEvent('tap', {
+        targetUid: this.properties.profile._id,
+        targetNickname: this.properties.profile.nickname
+      })
     }
   }
 })

@@ -59,12 +59,15 @@ Page({
   },
 
   goToProfile(e) {
-    const { targetUid } = e.currentTarget.dataset
+    const targetUid = e.detail ? e.detail.targetUid : e.currentTarget.dataset.targetUid
+    if (!targetUid) return
     wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${targetUid}` })
   },
 
   goToWrite(e) {
-    const { targetUid, targetNickname } = e.currentTarget.dataset
-    wx.navigateTo({ url: `/pages/letters/write/index?targetUid=${targetUid}&targetNickname=${targetNickname}&isFirst=true` })
+    const targetUid = e.detail ? e.detail.targetUid : e.currentTarget.dataset.targetUid
+    const targetNickname = e.detail ? e.detail.targetNickname : e.currentTarget.dataset.targetNickname
+    if (!targetUid) return
+    wx.navigateTo({ url: `/pages/letters/write/index?targetUid=${targetUid}&targetNickname=${encodeURIComponent(targetNickname || '')}&isFirst=true` })
   }
 })
