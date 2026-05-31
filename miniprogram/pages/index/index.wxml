@@ -27,8 +27,13 @@
       <text class="section-more">查看 ›</text>
     </view>
     <view class="memory-card card">
-      <text class="memory-date">{{memoryToday.date}}</text>
-      <text class="memory-excerpt text-ellipsis-2">{{memoryToday.content}}</text>
+      <view class="memory-header-row">
+        <text class="memory-date">{{memoryToday.displayDate}}</text>
+        <view wx:if="{{memoryToday.type === 'mood'}}" class="memory-emotion-badge mood-{{memoryToday.emotion}}">
+          <text>{{memoryToday.emotionLabel}}</text>
+        </view>
+      </view>
+      <text class="memory-excerpt text-ellipsis-2">{{memoryToday.displayText}}</text>
     </view>
   </view>
 

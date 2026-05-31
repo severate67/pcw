@@ -84,12 +84,30 @@
   padding: 24rpx;
 }
 
+.memory-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
 .memory-date {
   font-size: 22rpx;
   color: var(--color-ink-secondary);
-  display: block;
-  margin-bottom: 12rpx;
 }
+
+.memory-emotion-badge {
+  border-radius: 16rpx;
+  padding: 4rpx 16rpx;
+  font-size: 20rpx;
+  color: #fff;
+}
+
+.mood-happy { background-color: var(--m-happy); }
+.mood-calm { background-color: var(--m-calm); }
+.mood-sad { background-color: var(--m-sad); }
+.mood-anxious { background-color: var(--m-anxious); }
+.mood-mixed { background-color: var(--m-mixed); }
 
 .memory-excerpt {
   font-size: 26rpx;
