@@ -20,8 +20,8 @@ Page({
   },
 
   onShow() {
-    // 每次回到首页刷新收件箱前两条
     this._loadInbox()
+    this._checkTodayMood()
   },
 
   async _loadPageData() {
@@ -41,8 +41,18 @@ Page({
         api.getDailyRecommend().catch(() => ({ code: -1 }))
       ])
 
-      if (memoryRes.code === 0) {
-        this.setData({ memoryToday: memoryRes.data })
+      if (memoryRes.code === 0 && memoryRes.data) {
+        const EMOTION_LABEL = { happy: '开心', calm: '平静', sad: '难过', anxious: '焦虑', mixed: '复杂' }
+        const memory = memoryRes.data
+        if (memory.type === 'mood') {
+          memory.emotionLabel = EMOTION_LABEL[memory.emotion] || memory.emotion
+          memory.displayDate = memory.date
+          memory.displayText = memory.diary || '（未填写日记）'
+        } else {
+          memory.displayDate = dateUtil.formatDate(new Date(memory.created_at), 'YYYY-MM-DD')
+          memory.displayText = memory.content || ''
+        }
+        this.setData({ memoryToday: memory })
       }
       if (recommendRes.code === 0) {
         this.setData({ dailyMatches: (recommendRes.data || []).slice(0, 2) })
@@ -63,6 +73,21 @@ Page({
       }
     } catch (err) {
       console.error('[index] _loadInbox error:', err)
+    }
+  },
+
+  async _checkTodayMood() {
+    const today = this.data.today
+    if (!today || this.data.moodDone) return
+    try {
+      const now = new Date()
+      const res = await api.getMoods(now.getFullYear(), now.getMonth() + 1)
+      if (res.code === 0 && res.data) {
+        const hasMood = res.data.some(m => m.date === today)
+        if (hasMood) this.setData({ moodDone: true })
+      }
+    } catch (e) {
+      console.error('[index] _checkTodayMood error:', e)
     }
   },
 
@@ -96,8 +121,12 @@ Page({
 
   // 去年的今天跳转
   goToMemory() {
-    if (this.data.memoryToday) {
-      wx.navigateTo({ url: `/pages/letters/detail/index?letterId=${this.data.memoryToday._id}` })
+    const { memoryToday } = this.data
+    if (!memoryToday) return
+    if (memoryToday.type === 'letter') {
+      wx.navigateTo({ url: `/pages/letters/detail/index?letterId=${memoryToday._id}` })
+    } else {
+      wx.switchTab({ url: '/pages/journey/index/index' })
     }
   }
 })

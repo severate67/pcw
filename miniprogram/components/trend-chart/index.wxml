@@ -11,7 +11,7 @@
 
   <!-- 无数据占位（数据加载中或为空时显示） -->
   <view wx:if="{{!chartInited}}" class="chart-placeholder">
-    <text class="placeholder-text">情绪折线图（需引入 wx-charts）</text>
+    <text class="placeholder-text">加载情绪走势图...</text>
   </view>
 
 </view>
