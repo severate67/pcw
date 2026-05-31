@@ -338,7 +338,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 1 | 基础框架 | ✅ 已完成 | 2026-05-30 |
 | Sprint 2 | 书信核心（上） | ✅ 已完成 | 2026-05-30 |
 | Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
-| Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
+| Sprint 4 | 情绪系统 | ✅ 已完成 | 2026-05-31 |
 | Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ⬜ 未开始 | — |
@@ -383,6 +383,26 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **已知限制（后续 Sprint 处理）：**
 - 订阅消息推送（来信提醒）：TODO，需用户申请模板
 - 信件归档功能：计划 Sprint 3 实现
+
+## Sprint 4 完成情况（2026-05-31）
+
+**已完成：**
+- `components/trend-chart/`：原生 Canvas 折线图，展示30天情绪强度走势，数据点按情绪类型着色（替换未实现的 wx-charts 占位）
+- `pages/index/index.js`：`onShow` 时调用 `getMoods` 自动检查今日情绪是否已记录，防止重启后重复显示录入入口（`moodDone` 状态持久化）
+- `pages/index/index.js`：处理 `memoryToday` 数据，mood 类型附加 `emotionLabel` / `displayDate` / `displayText` 字段，letter 类型格式化 `created_at`
+- `pages/index/index.wxml`：「去年的今天」卡片同时支持 mood（情绪徽章 + 日记摘要）和 letter（正文摘要）两种展示
+- `pages/index/index.js`：`goToMemory` 按类型分流 —— mood 跳转情绪旅程页，letter 跳转信件详情页
+- `pages/index/index.wxss`：新增 `memory-header-row`、`memory-emotion-badge`、`mood-*` 颜色工具类
+
+**已有（Sprint 2 期间已实现，Sprint 4 无需改动）：**
+- `cloudfunctions/saveMood/`：情绪保存（同日 upsert、字数校验、内容安全）
+- `cloudfunctions/getMoods/`：按年月查询情绪列表
+- `cloudfunctions/getMoodTrend/`：过去30天情绪趋势
+- `cloudfunctions/getMemoryToday/`：「去年的今天」（优先 mood，次选 letter）
+- `components/mood-widget/`：情绪选择 + 强度 + 日记 + 保存
+- `components/emotion-calendar/`：情绪月历（彩色点、今日标注、图例）
+- `pages/journey/`：情绪旅程页（月份切换、月历、选日详情、折线图区域）
+- `utils/validator.validateMoodDiary`：日记字数校验（≥30字，选填）
 
 ## 已知环境信息
 
