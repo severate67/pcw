@@ -53,6 +53,20 @@ exports.main = async (event, context) => {
 
     const addRes = await db.collection('letters').add({ data: letter })
 
+    // 首封信发出后，将匹配状态更新为 active
+    if (isFirst) {
+      try {
+        const matchRes = await db.collection('matches')
+          .where({ uid_a: OPENID, uid_b: targetUid })
+          .get()
+        if (matchRes.data && matchRes.data.length > 0) {
+          await db.collection('matches').doc(matchRes.data[0]._id).update({
+            data: { status: 'active', updated_at: db.serverDate() }
+          })
+        }
+      } catch (e) {}
+    }
+
     // TODO: 触发订阅消息推送通知收信人
 
     return { code: 0, data: { _id: addRes._id }, message: 'ok' }

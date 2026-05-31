@@ -337,9 +337,9 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 0 | 需求与设计 | ✅ 已完成 | 2026-05-30 |
 | Sprint 1 | 基础框架 | ✅ 已完成 | 2026-05-30 |
 | Sprint 2 | 书信核心（上） | ✅ 已完成 | 2026-05-30 |
-| Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
-| Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
-| Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
+| Sprint 3 | 书信核心（下） | ✅ 已完成 | 2026-05-30 |
+| Sprint 4 | 情绪系统 | ✅ 已完成 | 2026-05-30 |
+| Sprint 5 | 匹配系统 | ✅ 已完成 | 2026-05-31 |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ⬜ 未开始 | — |
 | Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
@@ -383,6 +383,21 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **已知限制（后续 Sprint 处理）：**
 - 订阅消息推送（来信提醒）：TODO，需用户申请模板
 - 信件归档功能：计划 Sprint 3 实现
+
+## Sprint 5 完成情况（2026-05-31）
+
+**已完成：**
+- `pages/match/index/`：每日灵魂推荐页（加载推荐列表、跳过、写信、点击卡片查看主页）
+- `pages/match/profile/`：对方主页（公开资料展示、近期摘要、活跃偏好、跳过/写信操作）
+- `components/soul-card/`：灵魂匹配卡组件（匹配度色彩动态、共同标签展示、点击跳转主页）
+- `cloudfunctions/getMatches/`：Jaccard 匹配算法（加权修正：活跃时段+10 / 书信频率+5 / 近期活跃+8）+ 每日 0 点定时触发配置
+- `cloudfunctions/getDailyRecommend/`：每日推荐列表（普通用户3条 / 会员5条）+ 信使账号冷启动兜底
+- `cloudfunctions/skipUser/`：跳过推荐（upsert matches 状态为 skipped）
+- `cloudfunctions/getPublicProfile/`：获取他人公开资料（白名单字段 + 近期摘要50字 + 活跃标签）
+- `cloudfunctions/sendLetter/`：首封信发出后自动将 matches 记录状态更新为 active
+
+**待人工完成：**
+- 在微信云开发控制台为 `getMatches` 云函数创建定时触发器（cron: `0 0 0 * * * *`）
 
 ## 已知环境信息
 
