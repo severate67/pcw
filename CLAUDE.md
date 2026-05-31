@@ -399,6 +399,15 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **待人工完成：**
 - 在微信云开发控制台为 `getMatches` 云函数创建定时触发器（cron: `0 0 0 * * * *`）
 
+## Sprint 5 联调修复（2026-05-31）
+
+**已修复：**
+- `components/soul-card/`：`onTap` 触发事件补充 `targetNickname` 字段
+- `pages/match/index/index.js`：`goToProfile` 改从 `e.detail` 读取自定义事件数据（原先读 `e.currentTarget.dataset` 导致 targetUid 为 undefined）
+- `pages/match/index/index.js`：`goToWrite` 对 `targetNickname` 做 `encodeURIComponent` 编码防止中文截断
+- `pages/match/index/index.wxml`：「写信给TA」按钮补加 `data-target-uid` 和 `data-target-nickname` 属性
+- `components/emotion-calendar/index.js`：末尾补空格至满 7 格，防止最后一周只有 1 格时因 flex:1 撑满整行造成日期列错位
+
 ## 已知环境信息
 
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
