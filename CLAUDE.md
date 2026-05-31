@@ -13,7 +13,7 @@
 - **平台**：微信小程序（基础库 3.0+）
 - **后端**：微信云开发 CloudBase（无服务器）
 - **数据库**：云数据库（MongoDB 文档型）
-- **当前阶段**：Sprint 1 — 基础框架（进行中）
+- **当前阶段**：Sprint 3 已完成，Sprint 4 — 情绪系统（待开始）
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
 
 ---
@@ -337,7 +337,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 0 | 需求与设计 | ✅ 已完成 | 2026-05-30 |
 | Sprint 1 | 基础框架 | ✅ 已完成 | 2026-05-30 |
 | Sprint 2 | 书信核心（上） | ✅ 已完成 | 2026-05-30 |
-| Sprint 3 | 书信核心（下） | ⬜ 未开始 | — |
+| Sprint 3 | 书信核心（下） | ✅ 已完成 | 2026-05-31 |
 | Sprint 4 | 情绪系统 | ⬜ 未开始 | — |
 | Sprint 5 | 匹配系统 | ⬜ 未开始 | — |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
@@ -360,6 +360,22 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 **待人工完成：**
 - 微信订阅消息模板申请（来信提醒 / 情绪记忆提醒）
+
+## Sprint 3 完成情况（2026-05-31）
+
+**已完成：**
+- 修复回信流程：`detail/index.js` `onReply()` 改为传递 `parentId`；`write/index.js` 有 `parentId` 时调用 `replyLetter`（≥100字），无时调用 `sendLetter`（≥150字）
+- `cloudfunctions/archiveLetter/`：归档信件云函数（校验发件人权限、幂等、标准响应结构）
+- `utils/api.js`：新增 `archiveLetter(id)` 封装并导出
+- `pages/letters/detail/`：发件人查看时显示「归档」+ 「回信」双按钮（flex 1:2），`onArchive()` 含二次确认弹窗
+- `cloudfunctions/getSent/index.js`：查询过滤 `archived` 状态信件
+- `pages/onboarding/index/index.js`：提交前对介绍文字调用 `moderateContent`，违规时回退至 Step 1
+
+**已知限制（后续 Sprint 处理）：**
+- 订阅消息推送（来信提醒）：TODO，需用户申请模板
+- 信件列表骨架屏：计划 Sprint 6 实现
+
+---
 
 ## Sprint 2 完成情况（2026-05-30）
 
