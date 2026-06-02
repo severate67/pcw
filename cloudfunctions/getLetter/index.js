@@ -26,37 +26,26 @@ exports.main = async (event, context) => {
     // 如果是收件人首次读取，更新状态为 read
     if (letter.to_uid === OPENID && letter.status === 'sent') {
       await db.collection('letters').doc(id).update({
-        data: {
-          status: 'read',
-          read_at: db.serverDate()
-        }
+        data: { status: 'read', read_at: db.serverDate() }
       })
       letter.status = 'read'
     }
 
-    // 获取发件人昵称（只返回安全字段）
-    let senderNickname = '陌生人'
-    try {
-      const senderRes = await db.collection('users').doc(letter.from_uid).get()
-      if (senderRes.data) {
-        senderNickname = senderRes.data.nickname
-      }
-    } catch (e) {}
-
-    // 计算回信目标（对方），前端不能直接比较 openid
     const isRecipient = letter.to_uid === OPENID
-    const replyToUid = isRecipient ? letter.from_uid : letter.to_uid
-    let replyToNickname = isRecipient ? senderNickname : '陌生人'
 
-    if (!isRecipient) {
-      // 当前用户是发件人，需要获取收件人昵称
-      try {
-        const receiverRes = await db.collection('users').doc(letter.to_uid).get()
-        if (receiverRes.data) {
-          replyToNickname = receiverRes.data.nickname
-        }
-      } catch (e) {}
-    }
+    // 并行获取发件人和收件人昵称
+    const [senderRes, receiverRes] = await Promise.all([
+      db.collection('users').doc(letter.from_uid).field({ _id: true, nickname: true }).get().catch(() => ({ data: null })),
+      isRecipient
+        ? Promise.resolve({ data: null })
+        : db.collection('users').doc(letter.to_uid).field({ _id: true, nickname: true }).get().catch(() => ({ data: null }))
+    ])
+
+    const senderNickname = senderRes.data ? senderRes.data.nickname : '陌生人'
+    const replyToUid = isRecipient ? letter.from_uid : letter.to_uid
+    const replyToNickname = isRecipient
+      ? senderNickname
+      : (receiverRes.data ? receiverRes.data.nickname : '陌生人')
 
     return {
       code: 0,

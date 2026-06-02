@@ -341,7 +341,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 4 | 情绪系统 | ✅ 已完成 | 2026-05-30 |
 | Sprint 5 | 匹配系统 | ✅ 已完成 | 2026-05-31 |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
-| Sprint 7 | 性能与安全 | ⬜ 未开始 | — |
+| Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
 | Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
 
 ## Sprint 0 完成情况（2026-05-30）
@@ -398,6 +398,24 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 **待人工完成：**
 - 在微信云开发控制台为 `getMatches` 云函数创建定时触发器（cron: `0 0 0 * * * *`）
+
+## Sprint 7 完成情况（2026-06-02）
+
+**已完成：**
+
+**安全加固：**
+- `cloudfunctions/sendLetter/`：禁止自发信（`targetUid === OPENID` 检查）；内容长度上限 5000 字符；标题内容安全审核；活跃书信组上限校验（普通用户 ≤ 5 组，错误码 1005）；仅查询收件人必要字段
+- `cloudfunctions/replyLetter/`：内容长度上限 5000 字符；标题内容安全审核；原信件查询仅取必要字段
+- `cloudfunctions/createUser/`：昵称内容安全审核；标签合法性校验（非空、长度 ≤ 20 字、过滤空白）；枚举值校验（active_time / letter_freq）
+- `cloudfunctions/updateUser/`：昵称内容安全审核；标签合法性校验同上；枚举值严格校验；移除更新后多余的二次查询（性能优化）
+- `cloudfunctions/saveMood/`：日记内容长度上限 2000 字符；禁止记录未来日期；intensity 类型强制转换
+- `cloudfunctions/getInbox/`、`getSent/`：page 参数类型安全（parseInt + Math.max 防负值）
+
+**性能优化：**
+- `cloudfunctions/getLetter/`：发件人 + 收件人昵称并行查询（`Promise.all`），避免串行等待
+- `cloudfunctions/getInbox/`、`getSent/`：加入 `.field()` 投影，列表不返回 content 正文大字段，减少数据传输量
+- `cloudfunctions/getDailyRecommend/`：推荐用户资料并行批量获取（`Promise.all`），消除循环串行查询
+- `cloudfunctions/getMatches/`：预取所有已有 matches 记录到内存 Map，消除 N+1 数据库查询；四路初始查询并行化（`Promise.all`）；批量 upsert 按 BATCH_SIZE=10 并发执行，防止云函数超时
 
 ## 已知环境信息
 

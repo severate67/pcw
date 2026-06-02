@@ -7,7 +7,7 @@ const PAGE_SIZE = 10
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   try {
-    const page = event.page || 0
+    const page = Math.max(0, parseInt(event.page) || 0)
     const skip = page * PAGE_SIZE
 
     const res = await db.collection('letters')
@@ -18,6 +18,7 @@ exports.main = async (event, context) => {
       .orderBy('created_at', 'desc')
       .skip(skip)
       .limit(PAGE_SIZE)
+      .field({ _id: true, from_uid: true, title: true, word_count: true, status: true, is_first: true, created_at: true, read_at: true })
       .get()
 
     // 批量获取发件人昵称
