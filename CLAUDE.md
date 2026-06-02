@@ -407,7 +407,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 5.5 | 心情可见性与评论 | ✅ 已完成 | 2026-06-02 |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
-| Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
+| Sprint 8 | 测试与上线 | ✅ 已完成 | 2026-06-02 |
 
 ---
 
