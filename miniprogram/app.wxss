@@ -83,6 +83,121 @@ page {
   font-weight: bold;
   color: var(--color-primary);
   margin-bottom: 16rpx;
+  letter-spacing: 2rpx;
+}
+
+/* 页面头部 */
+.page-header {
+  padding: 48rpx 32rpx 32rpx;
+  background-color: var(--color-primary);
+}
+
+.page-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.page-subtitle {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 输入框 */
+.input-field {
+  width: 100%;
+  font-size: 28rpx;
+  color: #3A2A1A;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #C9A66B;
+  background-color: transparent;
+}
+
+.textarea-field {
+  width: 100%;
+  font-size: 26rpx;
+  color: #3A2A1A;
+  background-color: #EDE0C4;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  line-height: 1.8;
+  min-height: 120rpx;
+}
+
+/* 底部操作栏 */
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 32rpx;
+  background-color: #F5EFE0;
+  border-top: 1rpx solid #EDE0C4;
+  display: flex;
+  gap: 16rpx;
+  z-index: 100;
+}
+
+/* 骨架屏 */
+.skeleton {
+  background-color: #EDE0C4;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-text {
+  height: 28rpx;
+  border-radius: 4rpx;
+  background-color: #EDE0C4;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeleton-avatar {
+  border-radius: 50%;
+  background-color: #EDE0C4;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+/* 按压缩放 */
+.press-scale:active {
+  transform: scale(0.97);
+}
+
+/* 淡入 */
+.fade-in {
+  animation: fadeIn 0.3s ease both;
+}
+
+.animate-in {
+  animation: fadeIn 0.3s ease both;
+}
+
+/* "没有更多"分隔线 */
+.no-more-divider {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 32rpx;
+  gap: 16rpx;
+  color: #7A5C3E;
+  font-size: 22rpx;
+}
+
+.no-more-divider-line {
+  flex: 1;
+  height: 1rpx;
+  background-color: #C9A66B;
+  opacity: 0.4;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* 空状态 */

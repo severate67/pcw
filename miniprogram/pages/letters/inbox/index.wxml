@@ -32,9 +32,11 @@
     <view class="btn btn-primary empty-btn" bindtap="goToMatch">去看看推荐</view>
   </view>
 
-  <!-- 加载中 -->
-  <view wx:if="{{loading}}" class="loading-wrap">
-    <text class="loading-text">加载中...</text>
+  <!-- 骨架屏加载 -->
+  <view wx:if="{{loading}}" class="letter-list">
+    <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
+    <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
+    <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
   </view>
 
   <!-- 加载更多 -->

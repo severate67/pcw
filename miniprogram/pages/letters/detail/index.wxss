@@ -3,7 +3,8 @@
 .page-container {
   min-height: 100vh;
   background-color: var(--color-bg);
-  padding-bottom: 120rpx;
+  padding-bottom: 140rpx;
+  padding-top: 0;
 }
 
 .loading-wrap {
@@ -81,7 +82,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24rpx 32rpx;
+  padding: 28rpx 32rpx;
   background-color: var(--color-bg);
   border-top: 1rpx solid var(--color-paper);
   display: flex;
@@ -94,8 +95,9 @@
   padding: 24rpx 0;
   font-size: 30rpx;
   border-radius: 8rpx;
-  border: 2rpx solid var(--color-primary);
+  border: 2rpx solid var(--color-gold);
   color: var(--color-primary);
+  background-color: transparent;
 }
 
 .reply-btn {
@@ -104,6 +106,7 @@
   padding: 24rpx 0;
   font-size: 30rpx;
   border-radius: 8rpx;
+  box-shadow: 0 4rpx 16rpx rgba(92, 61, 32, 0.3);
 }
 
 .reply-btn-half {

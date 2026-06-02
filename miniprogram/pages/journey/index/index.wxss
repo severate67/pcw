@@ -16,10 +16,14 @@
 }
 
 .month-arrow {
-  font-size: 48rpx;
+  font-size: 40rpx;
   color: var(--color-primary);
-  padding: 0 40rpx;
-  line-height: 1;
+  padding: 0;
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  text-align: center;
+  border-radius: 22rpx;
 }
 
 .month-label {
@@ -37,6 +41,7 @@
 .mood-detail {
   margin: 0 24rpx 24rpx;
   padding: 28rpx;
+  border-left: 4rpx solid var(--color-gold);
 }
 
 .mood-detail-header {
@@ -125,6 +130,9 @@
 .chart-section {
   padding: 24rpx;
   min-height: 200rpx;
+  background-color: var(--color-paper);
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(58, 42, 26, 0.08);
 }
 
 .chart-empty {

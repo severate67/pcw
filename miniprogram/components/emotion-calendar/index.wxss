@@ -52,6 +52,13 @@
   border: 1rpx solid var(--color-gold);
 }
 
+.day-dot-filled {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 14rpx;
+  margin-bottom: 4rpx;
+}
+
 .day-num {
   font-size: 24rpx;
   color: var(--color-ink);
@@ -60,6 +67,7 @@
 .day-today .day-num {
   color: var(--color-accent);
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .day-today {
@@ -95,9 +103,13 @@
 }
 
 .legend-dot {
-  width: 16rpx;
-  height: 16rpx;
-  border-radius: 8rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 6rpx;
+}
+
+.legend-row {
+  gap: 20rpx;
 }
 
 .legend-item-label {

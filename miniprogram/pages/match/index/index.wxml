@@ -42,7 +42,11 @@
 
   <!-- 今日推荐已用完 -->
   <view wx:elif="{{allUsed && !loading}}" class="empty-state">
-    <view class="empty-icon">🌙</view>
+    <view class="empty-decoration">
+      <text class="empty-moon">☽</text>
+      <text class="empty-star">✦</text>
+      <text class="empty-star-sm">✧</text>
+    </view>
     <text class="empty-title">今天的推荐已看完</text>
     <text class="empty-sub">明天还会有新的灵魂与你相遇</text>
   </view>

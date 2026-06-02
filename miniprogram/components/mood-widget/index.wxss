@@ -12,12 +12,20 @@
 }
 
 .emotion-item {
-  padding: 14rpx 24rpx;
-  border-radius: 20rpx;
+  padding: 0 24rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 12rpx;
   font-size: 26rpx;
   color: var(--color-ink-secondary);
   background-color: var(--color-bg);
   border: 2rpx solid var(--color-gold);
+  transition: transform 0.15s ease;
+}
+
+.emotion-selected {
+  transform: scale(1.05);
+  font-weight: bold;
 }
 
 .intensity-section {
@@ -35,13 +43,13 @@
 
 .intensity-dots {
   display: flex;
-  gap: 10rpx;
+  gap: 16rpx;
 }
 
 .intensity-dot {
-  width: 28rpx;
-  height: 28rpx;
-  border-radius: 14rpx;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 12rpx;
   background-color: var(--color-paper);
   border: 2rpx solid var(--color-gold);
 }
@@ -89,7 +97,8 @@
   line-height: 1.8;
   background-color: var(--color-bg);
   border-radius: 8rpx;
-  padding: 12rpx;
+  padding: 16rpx;
+  border: 1rpx solid var(--color-gold);
 }
 
 .placeholder {
@@ -110,7 +119,7 @@
   padding: 24rpx 0;
   font-size: 28rpx;
   font-weight: bold;
-  border-radius: 8rpx;
+  border-radius: 12rpx;
 }
 
 .btn-disabled {

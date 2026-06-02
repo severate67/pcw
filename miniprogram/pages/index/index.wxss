@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32rpx 32rpx 16rpx;
+  padding: 32rpx 32rpx 40rpx;
   background-color: var(--color-primary);
 }
 
@@ -27,7 +27,7 @@
 }
 
 .section {
-  margin: 24rpx 24rpx 0;
+  margin: 28rpx 24rpx 0;
 }
 
 .section-header {
@@ -82,6 +82,7 @@
 /* 记忆区域 */
 .memory-card {
   padding: 24rpx;
+  border-left: 4rpx solid var(--color-gold);
 }
 
 .memory-header-row {
@@ -124,7 +125,7 @@
 .matches-list {
   display: inline-flex;
   gap: 16rpx;
-  padding: 4rpx 4rpx 12rpx;
+  padding: 4rpx 4rpx 20rpx;
 }
 
 .match-item {

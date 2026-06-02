@@ -8,13 +8,14 @@
 }
 
 .stamp-circle {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: 36rpx;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 4rpx solid var(--color-seal);
+  transition: all 0.2s ease;
 }
 
 .stamp-sealed .stamp-circle {
@@ -25,11 +26,11 @@
 .stamp-open .stamp-circle {
   background-color: var(--color-seal);
   opacity: 1;
-  box-shadow: 0 4rpx 12rpx rgba(181, 52, 30, 0.4);
+  box-shadow: 0 4rpx 20rpx rgba(181, 52, 30, 0.35);
 }
 
 .stamp-char {
-  font-size: 28rpx;
+  font-size: 36rpx;
   font-weight: bold;
   color: var(--color-seal);
 }
