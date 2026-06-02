@@ -5,6 +5,7 @@
       wx:for="{{presetTags}}"
       wx:key="*this"
       class="tag-option {{_selected.indexOf(item) >= 0 ? 'tag-selected' : ''}}"
+      style="{{_selected.indexOf(item) >= 0 ? 'background-color:#5C3D20;color:#ffffff;border-color:#5C3D20;' : ''}}"
       bindtap="toggleTag"
       data-tag="{{item}}"
     >
