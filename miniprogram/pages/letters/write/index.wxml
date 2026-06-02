@@ -57,11 +57,9 @@
 
   <!-- 底部操作栏 -->
   <view class="send-area">
-    <view class="send-left">
-      <seal-stamp sealed="{{!canSend}}" bind:tap="onSend" />
-      <text class="draft-status">{{draftSaved ? draftSavedAt : '未存草稿'}}</text>
-    </view>
+    <seal-stamp sealed="{{!canSend}}" bind:tap="onSend" />
     <view class="send-right">
+      <text class="draft-status">{{draftSaved ? draftSavedAt : ''}}</text>
       <view class="btn btn-ghost draft-btn" bindtap="onSaveDraft">存草稿</view>
       <view
         class="btn btn-primary send-btn {{!canSend || sending ? 'btn-disabled' : ''}}"
