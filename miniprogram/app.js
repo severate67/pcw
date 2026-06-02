@@ -2,7 +2,28 @@
 App({
   onLaunch() {
     wx.cloud.init({ env: 'cloud1-d0gh5vk6m6766834f', traceUser: true })
+    this._initPrivacy()
     this._checkUser()
+  },
+
+  _initPrivacy() {
+    if (wx.onNeedPrivacyAuthorization) {
+      wx.onNeedPrivacyAuthorization(resolve => {
+        wx.showModal({
+          title: '隐私保护提示',
+          content: '在使用前，请阅读并同意《隐私政策》，我们将依法保护您的个人信息。',
+          confirmText: '同意',
+          cancelText: '查看政策',
+          success: res => {
+            if (res.confirm) {
+              resolve({ buttonId: 'agree', event: 'agree' })
+            } else {
+              wx.navigateTo({ url: '/pages/privacy/index' })
+            }
+          }
+        })
+      })
+    }
   },
 
   async _checkUser() {
