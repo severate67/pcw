@@ -340,7 +340,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 3 | 书信核心（下） | ✅ 已完成 | 2026-05-30 |
 | Sprint 4 | 情绪系统 | ✅ 已完成 | 2026-05-30 |
 | Sprint 5 | 匹配系统 | ✅ 已完成 | 2026-05-31 |
-| Sprint 6 | UI 精修 | ⬜ 未开始 | — |
+| Sprint 6 | UI 精修 | ✅ 已完成 | 2026-06-02 |
 | Sprint 7 | 性能与安全 | ⬜ 未开始 | — |
 | Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
 
@@ -398,6 +398,25 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 **待人工完成：**
 - 在微信云开发控制台为 `getMatches` 云函数创建定时触发器（cron: `0 0 0 * * * *`）
+
+## Sprint 6 完成情况（2026-06-02）
+
+**主题：UI 精修（仅改动 `.wxml` / `.wxss`，不涉及业务逻辑与云函数）**
+
+**已完成：**
+- `app.wxss`：新增全局工具类——骨架屏（`.skeleton` / `.skeleton-text` / `.skeleton-avatar`，shimmer 动画）、淡入（`.fade-in` / `.animate-in`）、按压缩放（`.press-scale`）、标准页面头部（`.page-header` / `.page-title` / `.page-subtitle`）、表单样式（`.input-field` / `.textarea-field`）、底部操作栏（`.action-bar`）、`.no-more-divider`；新增 `@keyframes shimmer` / `fadeIn`
+- 组件精修：
+  - `envelope-card`：圆角 16rpx、金色左边框、按压缩放、未读点脉冲动画、头像 72rpx、正文行高 1.8、底部 meta 行
+  - `soul-card`：圆角 20rpx、金色边框、头像 96rpx、匹配分胶囊徽章、紧凑标签、按压缩放
+  - `mood-widget`：情绪按钮 88rpx + 选中缩放、强度点间距优化、日记框金色边框、保存按钮圆角
+  - `seal-stamp`：圆形 88rpx、开启态阴影、`transition: all 0.2s`
+  - `tag-picker`：圆角 24rpx、选中过渡；**选中态改用 inline style 强制生效**（规避 `apply-shared` 样式隔离覆盖）
+  - `emotion-calendar`：有情绪日点 28rpx、今日下划线、图例点 12rpx
+- 页面精修：`index`（分区渐入 + 骨架加载）、`inbox`（标签栏加高、FAB 阴影、骨架块）、`write`（信纸阴影 + 渐变左边框、行高 2.0、字数不足红色警示）、`detail`（归档按钮金色描边、回复按钮阴影）、`journey`（月份切换圆形按钮、情绪详情左边框、图表卡片）、`match/index`（按钮差异化、月亮空状态装饰）、`match/profile`（头像白边、写信按钮阴影）、`profile/index`（头像白环、数据数字 44rpx、菜单项统一高度）、`profile/edit` + `onboarding`（进度条圆角、标题字号、按钮圆角）
+
+**关键修复（联调发现）：**
+- `app.wxss` 的 `@keyframes fadeIn` 误用 `rpx` 单位导致整张全局样式表编译失败、CSS 变量全部失效、页面空白——已将 `16rpx` 改为 `8px`（小程序 `@keyframes` 不支持 `rpx`）
+- `tag-picker` 选中态颜色不变——`apply-shared` 模式下全局样式穿透覆盖，改用 inline style 绑定修复
 
 ## 已知环境信息
 
