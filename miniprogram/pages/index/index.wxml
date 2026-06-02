@@ -8,7 +8,7 @@
   </view>
 
   <!-- 今日心情卡片 -->
-  <view class="section mood-section">
+  <view class="section mood-section animate-in">
     <view wx:if="{{!moodDone}}" class="mood-prompt card">
       <text class="mood-prompt-title">今天，你怎么样？</text>
       <text class="mood-prompt-sub">记录此刻的心情</text>
@@ -21,7 +21,7 @@
   </view>
 
   <!-- 去年的今天 -->
-  <view wx:if="{{memoryToday}}" class="section memory-section" bindtap="goToMemory">
+  <view wx:if="{{memoryToday}}" class="section memory-section animate-in" bindtap="goToMemory">
     <view class="section-header">
       <text class="section-title">去年的今天</text>
       <text class="section-more">查看 ›</text>
@@ -38,7 +38,7 @@
   </view>
 
   <!-- 灵魂匹配 -->
-  <view class="section matches-section">
+  <view class="section matches-section animate-in">
     <view class="section-header">
       <text class="section-title">今日灵魂推荐</text>
       <text class="section-more" bindtap="goToMatch">全部 ›</text>
@@ -62,12 +62,18 @@
   </view>
 
   <!-- 最近来信 -->
-  <view class="section letters-section">
+  <view class="section letters-section animate-in">
     <view class="section-header">
       <text class="section-title">最近来信</text>
       <text class="section-more" bindtap="goToInbox">信箱 ›</text>
     </view>
-    <view wx:if="{{recentLetters.length > 0}}">
+    <!-- 骨架屏 -->
+    <view wx:if="{{loading}}">
+      <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
+      <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
+      <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
+    </view>
+    <view wx:elif="{{recentLetters.length > 0}}">
       <view
         wx:for="{{recentLetters}}"
         wx:key="_id"
@@ -80,11 +86,6 @@
     <view wx:else class="empty-state">
       <text>还没有来信，去发现灵魂匹配吧</text>
     </view>
-  </view>
-
-  <!-- 加载中 -->
-  <view wx:if="{{loading}}" class="loading-wrap">
-    <text class="loading-text">加载中...</text>
   </view>
 
 </view>

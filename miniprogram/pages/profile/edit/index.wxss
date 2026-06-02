@@ -98,9 +98,12 @@
 .save-btn {
   width: 100%;
   text-align: center;
-  padding: 24rpx 0;
+  height: 96rpx;
+  line-height: 96rpx;
+  padding: 0;
   font-size: 30rpx;
   font-weight: bold;
+  border-radius: 8rpx;
 }
 
 .btn-disabled {

@@ -15,19 +15,21 @@
 .tab-item {
   flex: 1;
   text-align: center;
-  padding: 28rpx 0;
-  font-size: 28rpx;
+  padding: 0;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
   color: var(--color-ink-secondary);
 }
 
 .tab-active {
   color: var(--color-primary);
   font-weight: bold;
-  border-bottom: 4rpx solid var(--color-primary);
+  border-bottom: 4rpx solid var(--color-accent);
 }
 
 .letter-list {
-  padding: 16rpx 24rpx;
+  padding: 20rpx 24rpx;
 }
 
 .letter-item {
@@ -95,7 +97,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 16rpx rgba(196, 98, 45, 0.4);
+  box-shadow: 0 6rpx 24rpx rgba(196, 98, 45, 0.5);
+  transition: transform 0.15s ease;
+}
+
+.fab:active {
+  transform: scale(0.92);
 }
 
 .fab-icon {

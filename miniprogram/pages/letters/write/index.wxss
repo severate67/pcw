@@ -32,15 +32,19 @@
   min-height: 600rpx;
   padding: 32rpx;
   position: relative;
-  border-left: 6rpx solid var(--color-seal);
+  border-left: 8rpx solid;
+  border-image: linear-gradient(to bottom, #B5341E, #C4622D) 1;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 24rpx rgba(58, 42, 26, 0.12);
 }
 
 .title-input {
   width: 100%;
-  font-size: 32rpx;
+  font-size: 34rpx;
   color: var(--color-ink);
   font-family: 'Noto Serif SC', serif;
   padding: 8rpx 0;
+  letter-spacing: 1rpx;
 }
 
 .paper-divider {
@@ -56,7 +60,7 @@
   font-size: 28rpx;
   color: var(--color-ink);
   font-family: 'Noto Serif SC', serif;
-  line-height: 1.9;
+  line-height: 2.0;
   padding: 8rpx 0;
 }
 
@@ -84,7 +88,7 @@
 }
 
 .counter-warn {
-  color: var(--color-ink-secondary);
+  color: var(--color-seal);
 }
 
 .counter-hint {

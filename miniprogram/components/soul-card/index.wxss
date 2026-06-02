@@ -2,9 +2,15 @@
 
 .soul-card {
   background-color: var(--color-paper);
-  border-radius: 12rpx;
+  border-radius: 20rpx;
   box-shadow: 0 2rpx 8rpx rgba(58, 42, 26, 0.08);
   padding: 24rpx;
+  border: 2rpx solid var(--color-gold);
+  transition: transform 0.15s ease;
+}
+
+.soul-card:active {
+  transform: scale(0.98);
 }
 
 .card-header {
@@ -14,9 +20,9 @@
 }
 
 .avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 40rpx;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
   background-color: var(--color-primary);
   display: flex;
   align-items: center;
@@ -26,7 +32,7 @@
 }
 
 .avatar-char {
-  font-size: 32rpx;
+  font-size: 40rpx;
   color: #ffffff;
 }
 
@@ -54,8 +60,14 @@
 }
 
 .score-value {
-  font-size: 24rpx;
+  font-size: 22rpx;
   font-weight: bold;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-radius: 100rpx;
+  padding: 6rpx 20rpx;
+  min-width: 80rpx;
+  text-align: center;
 }
 
 .intro-area {
@@ -79,7 +91,7 @@
   background-color: var(--color-primary);
   color: #ffffff;
   font-size: 20rpx;
-  padding: 4rpx 14rpx;
+  padding: 4rpx 12rpx;
   border-radius: 16rpx;
 }
 
