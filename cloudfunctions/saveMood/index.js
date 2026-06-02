@@ -4,12 +4,13 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 const VALID_EMOTIONS = ['happy', 'calm', 'sad', 'anxious', 'mixed']
+const VALID_VISIBILITY = ['private', 'friends', 'public']
 const MAX_DIARY_LEN = 2000
 
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   try {
-    const { emotion, intensity, diary, date } = event
+    const { emotion, intensity, diary, date, visibility } = event
 
     // 参数校验
     if (!emotion || !VALID_EMOTIONS.includes(emotion)) {
@@ -54,7 +55,8 @@ exports.main = async (event, context) => {
       emotion,
       intensity: intensityNum,
       diary: (diary || '').trim(),
-      date
+      date,
+      visibility: VALID_VISIBILITY.includes(visibility) ? visibility : 'private'
     }
 
     // 同一天重复记录则覆盖（upsert）

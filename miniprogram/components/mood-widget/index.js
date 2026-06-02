@@ -11,23 +11,47 @@ const EMOTIONS = [
   { key: 'mixed', label: '复杂', color: '#7A5C3E' }
 ]
 
+const VISIBILITY_OPTIONS = [
+  { key: 'private', label: '仅自己', icon: '🔒' },
+  { key: 'friends', label: '笔友', icon: '✉️' },
+  { key: 'public', label: '公开', icon: '🌍' }
+]
+
 Component({
   properties: {
-    date: {
-      type: String,
-      value: ''
-    }
+    date: { type: String, value: '' },
+    // 传入已有记录时进入编辑模式
+    existingMood: { type: Object, value: null }
   },
 
   data: {
     emotions: EMOTIONS,
+    visibilityOptions: VISIBILITY_OPTIONS,
     selectedEmotion: '',
     intensity: 3,
     diary: '',
     diaryCount: 0,
     diaryValid: true,
+    visibility: 'private',
     saving: false,
-    today: ''
+    today: '',
+    isEditMode: false
+  },
+
+  observers: {
+    existingMood(mood) {
+      if (mood && mood.emotion) {
+        this.setData({
+          isEditMode: true,
+          selectedEmotion: mood.emotion,
+          intensity: mood.intensity || 3,
+          diary: mood.diary || '',
+          diaryCount: validator.countWords(mood.diary || ''),
+          diaryValid: true,
+          visibility: mood.visibility || 'private'
+        })
+      }
+    }
   },
 
   lifetimes: {
@@ -43,13 +67,14 @@ Component({
       this.setData({ selectedEmotion: key })
     },
 
-    onIntensityChange(e) {
-      this.setData({ intensity: parseInt(e.detail.value) })
-    },
-
     onIntensityTap(e) {
       const { level } = e.currentTarget.dataset
       this.setData({ intensity: level })
+    },
+
+    selectVisibility(e) {
+      const { key } = e.currentTarget.dataset
+      this.setData({ visibility: key })
     },
 
     onDiaryInput(e) {
@@ -75,30 +100,18 @@ Component({
 
       this.setData({ saving: true })
 
-      // 内容安全检查（如果有日记内容）
-      if (this.data.diary) {
-        try {
-          const modRes = await api.moderateContent(this.data.diary)
-          if (modRes.code !== 0) {
-            wx.showToast({ title: '内容包含违规信息，请修改', icon: 'none' })
-            this.setData({ saving: false })
-            return
-          }
-        } catch (e) {
-          console.error('[mood-widget] moderate error:', e)
-        }
-      }
-
       try {
         const res = await api.saveMood({
           emotion: this.data.selectedEmotion,
           intensity: this.data.intensity,
           diary: this.data.diary,
-          date: this.data.today
+          date: this.data.today,
+          visibility: this.data.visibility
         })
 
         if (res.code === 0) {
           this.triggerEvent('save', { mood: res.data })
+          wx.showToast({ title: this.data.isEditMode ? '已更新' : '情绪已记录', icon: 'success' })
         } else {
           wx.showToast({ title: res.message || '保存失败', icon: 'none' })
         }

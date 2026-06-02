@@ -9,14 +9,38 @@
 
   <!-- 今日心情卡片 -->
   <view class="section mood-section animate-in">
+    <!-- 未记录：显示记录表单 -->
     <view wx:if="{{!moodDone}}" class="mood-prompt card">
       <text class="mood-prompt-title">今天，你怎么样？</text>
       <text class="mood-prompt-sub">记录此刻的心情</text>
       <mood-widget bind:save="onMoodSaved" />
     </view>
-    <view wx:else class="mood-done card">
-      <text class="mood-done-text">今日心情已记录</text>
-      <text class="mood-done-emoji">✓</text>
+
+    <!-- 已记录 + 非编辑状态 -->
+    <view wx:elif="{{moodDone && !editingMood}}" class="mood-done card">
+      <view class="mood-done-row">
+        <view class="mood-done-info">
+          <text class="mood-done-label">今日心情已记录</text>
+          <view wx:if="{{todayMood}}" class="mood-done-badge mood-{{todayMood.emotion}}">
+            <text>{{todayMood.emotionLabel}}</text>
+          </view>
+        </view>
+        <view class="mood-edit-btn" bindtap="onEditMood">
+          <text>修改</text>
+        </view>
+      </view>
+      <view wx:if="{{todayMood && todayMood.diary}}" class="mood-done-diary">
+        <text class="text-ellipsis-2">{{todayMood.diary}}</text>
+      </view>
+    </view>
+
+    <!-- 编辑模式 -->
+    <view wx:elif="{{editingMood}}" class="mood-prompt card">
+      <view class="edit-header-row">
+        <text class="mood-prompt-title">修改今日心情</text>
+        <text class="cancel-btn" bindtap="onCancelEdit">取消</text>
+      </view>
+      <mood-widget existing-mood="{{todayMood}}" bind:save="onMoodSaved" />
     </view>
   </view>
 
@@ -67,9 +91,7 @@
       <text class="section-title">最近来信</text>
       <text class="section-more" bindtap="goToInbox">信箱 ›</text>
     </view>
-    <!-- 骨架屏 -->
     <view wx:if="{{loading}}">
-      <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
       <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
       <view class="skeleton" style="height:120rpx;border-radius:16rpx;margin-bottom:16rpx;"></view>
     </view>

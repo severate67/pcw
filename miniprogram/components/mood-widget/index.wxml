@@ -49,13 +49,31 @@
     <text wx:if="{{!diaryValid}}" class="diary-hint">日记内容需至少30字</text>
   </view>
 
+  <!-- 可见性设置 -->
+  <view wx:if="{{selectedEmotion}}" class="visibility-section">
+    <text class="visibility-label">谁可以看到</text>
+    <view class="visibility-options">
+      <view
+        wx:for="{{visibilityOptions}}"
+        wx:key="key"
+        class="visibility-item {{visibility === item.key ? 'visibility-active' : ''}}"
+        bindtap="selectVisibility"
+        data-key="{{item.key}}"
+      >
+        <text class="visibility-icon">{{item.icon}}</text>
+        <text class="visibility-text">{{item.label}}</text>
+      </view>
+    </view>
+    <text wx:if="{{visibility === 'public'}}" class="visibility-tip">公开后，陌生人可以评论并与你成为笔友</text>
+  </view>
+
   <!-- 保存按钮 -->
   <view
     wx:if="{{selectedEmotion}}"
     class="save-btn btn btn-primary {{saving ? 'btn-disabled' : ''}}"
     bindtap="onSave"
   >
-    <text>{{saving ? '记录中...' : '记录此刻'}}</text>
+    <text>{{saving ? '记录中...' : (isEditMode ? '更新心情' : '记录此刻')}}</text>
   </view>
 
 </view>

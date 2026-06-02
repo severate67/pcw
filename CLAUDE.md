@@ -127,7 +127,21 @@ pingchang/
   emotion: String,      // 'happy' | 'calm' | 'sad' | 'anxious' | 'mixed'
   intensity: Number,    // 1–5
   diary: String,        // ≥ 30 字，可选
-  date: String          // 'YYYY-MM-DD'
+  date: String,         // 'YYYY-MM-DD'
+  visibility: String    // 'private' | 'friends' | 'public'，默认 'private'
+}
+```
+
+### `mood_comments`
+```js
+{
+  _id: String,
+  mood_id: String,      // 对应 moods._id
+  mood_uid: String,     // 心情作者 openid（快速权限校验）
+  from_uid: String,     // 评论者 openid
+  parent_id: String,    // 被回复的评论 _id，顶层评论为 null
+  content: String,      // 评论内容，≤ 200 字
+  created_at: Date
 }
 ```
 
@@ -340,6 +354,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 3 | 书信核心（下） | ✅ 已完成 | 2026-05-30 |
 | Sprint 4 | 情绪系统 | ✅ 已完成 | 2026-05-30 |
 | Sprint 5 | 匹配系统 | ✅ 已完成 | 2026-05-31 |
+| Sprint 5.5 | 心情可见性与评论 | ✅ 已完成 | 2026-06-02 |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
 | Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
