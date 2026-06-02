@@ -18,10 +18,10 @@
   color: #7A5C3E;
   background-color: #F5EFE0;
   border: 2rpx solid #C9A66B;
-  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.tag-selected {
+/* 使用更高优先级选择器，防止与其他样式冲突 */
+.tag-option.tag-selected {
   background-color: #5C3D20;
   color: #ffffff;
   border-color: #5C3D20;

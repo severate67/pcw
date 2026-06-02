@@ -13,7 +13,7 @@
 - **平台**：微信小程序（基础库 3.0+）
 - **后端**：微信云开发 CloudBase（无服务器）
 - **数据库**：云数据库（MongoDB 文档型）
-- **当前阶段**：Sprint 1 — 基础框架（进行中）
+- **当前阶段**：Sprint 6 — UI 精修（待开始）
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
 
 ---
@@ -24,44 +24,59 @@
 pingchang/
 ├── miniprogram/
 │   ├── pages/
-│   │   ├── index/          # 首页
+│   │   ├── index/               # 首页（今日心情 + 来信预览 + 灵魂推荐）
 │   │   ├── letters/
-│   │   │   ├── inbox/      # 收件箱
-│   │   │   ├── sent/       # 已发出
-│   │   │   ├── write/      # 写信页
-│   │   │   └── detail/     # 信件详情（含拆信动画）
-│   │   ├── journey/        # 情绪旅程
+│   │   │   ├── inbox/           # 收件箱（分页 + 下拉刷新）
+│   │   │   ├── sent/            # 已发出列表
+│   │   │   ├── write/           # 写信页（字数校验 + 内容安全）
+│   │   │   └── detail/          # 信件详情（含5阶段拆信动画）
+│   │   ├── journey/
+│   │   │   └── index/           # 情绪旅程（月历 + 趋势图 + 心情广场 Tab）
 │   │   ├── match/
-│   │   │   ├── index/      # 灵魂匹配
-│   │   │   └── profile/    # 对方主页
+│   │   │   ├── index/           # 每日灵魂推荐
+│   │   │   └── profile/         # 对方公开主页
 │   │   ├── profile/
-│   │   │   ├── index/      # 我的
-│   │   │   └── edit/       # 编辑资料
-│   │   └── onboarding/     # 注册引导
+│   │   │   ├── index/           # 我的
+│   │   │   └── edit/            # 编辑资料
+│   │   └── onboarding/
+│   │       └── index/           # 新用户注册引导
 │   ├── components/
-│   │   ├── envelope-card/  # 信封卡片
-│   │   ├── soul-card/      # 灵魂匹配卡
-│   │   ├── mood-widget/    # 情绪记录组件
-│   │   ├── letter-paper/   # 信纸容器
-│   │   ├── open-animation/ # 拆信动画（5阶段状态机）
-│   │   ├── emotion-calendar/ # 情绪月历
-│   │   ├── trend-chart/    # 情绪折线图
-│   │   ├── tag-picker/     # 标签选择器
-│   │   ├── counter-input/  # 字数计数输入框
-│   │   └── seal-stamp/     # 蜡封印章
+│   │   ├── envelope-card/       # 信封卡片（未读红点、相对时间）
+│   │   ├── soul-card/           # 灵魂匹配卡（匹配度色彩、共同标签）
+│   │   ├── mood-widget/         # 情绪记录组件（支持新建/编辑模式 + 可见性选择）
+│   │   ├── letter-paper/        # 信纸容器（横线背景）
+│   │   ├── open-animation/      # 拆信动画（5阶段状态机）
+│   │   ├── emotion-calendar/    # 情绪月历
+│   │   ├── trend-chart/         # 情绪折线图（wx-charts）
+│   │   ├── tag-picker/          # 标签选择器（styleIsolation: isolated，inline style 保障选中态）
+│   │   ├── counter-input/       # 字数计数输入框
+│   │   └── seal-stamp/          # 蜡封印章（按压动画）
 │   ├── utils/
-│   │   ├── api.js          # 云函数调用封装
-│   │   ├── validator.js    # 字数、内容校验
-│   │   └── date.js         # 日期格式化工具
+│   │   ├── api.js               # 云函数调用封装（所有页面必须通过此文件）
+│   │   ├── validator.js         # 字数、内容校验（countWords / validateLetter 等）
+│   │   └── date.js              # 日期格式化工具
 │   └── app.js / app.json / app.wxss
-├── cloudfunctions/
+├── cloudfunctions/              # 22 个云函数（均已部署）
 │   ├── sendLetter/
 │   ├── getLetter/
 │   ├── replyLetter/
-│   ├── getMatches/
+│   ├── archiveLetter/
+│   ├── getInbox/
+│   ├── getSent/
+│   ├── getMatches/              # 定时触发：每日 0 点（需手动配置 cron）
 │   ├── getDailyRecommend/
+│   ├── skipUser/
+│   ├── getPublicProfile/
 │   ├── saveMood/
+│   ├── getMoods/
+│   ├── getMoodTrend/
 │   ├── getMemoryToday/
+│   ├── getPublicMoods/          # 公开心情广场（分页）
+│   ├── commentOnMood/           # 评论心情 + 自动建立笔友关系
+│   ├── getMoodComments/         # 获取心情评论列表
+│   ├── createUser/
+│   ├── updateUser/
+│   ├── getUser/
 │   ├── checkInactivity/
 │   └── moderateContent/
 └── CLAUDE.md
@@ -93,7 +108,7 @@ pingchang/
   avatar_url: String,   // 云存储路径，可选
   intro: String,        // 20–60 字，必填
   tags: String[],       // 3–5 个兴趣标签，必填
-  active_time: String,  // 'morning' | 'afternoon' | 'night'
+  active_time: String,  // 'morning' | 'afternoon' | 'night' | 'free'
   letter_freq: String,  // 'weekly' | 'biweekly' | 'free'
   created_at: Date,
   last_active: Date,
@@ -110,7 +125,7 @@ pingchang/
   to_uid: String,
   parent_id: String,    // 回信时填写，可选
   title: String,        // ≤ 30 字，可选
-  content: String,      // 首封 ≥ 150 字，回信 ≥ 100 字
+  content: String,      // 首封 ≥ 150 字，回信 ≥ 100 字，上限 5000 字符
   word_count: Number,   // 后端计算写入
   status: String,       // 'sent' | 'read' | 'archived' | 'rejected'
   is_first: Boolean,    // 是否为陌生人首封信
@@ -126,8 +141,8 @@ pingchang/
   uid: String,
   emotion: String,      // 'happy' | 'calm' | 'sad' | 'anxious' | 'mixed'
   intensity: Number,    // 1–5
-  diary: String,        // ≥ 30 字，可选
-  date: String,         // 'YYYY-MM-DD'
+  diary: String,        // ≥ 30 字，可选，上限 2000 字符
+  date: String,         // 'YYYY-MM-DD'，不允许未来日期
   visibility: String    // 'private' | 'friends' | 'public'，默认 'private'
 }
 ```
@@ -149,21 +164,35 @@ pingchang/
 ```js
 {
   _id: String,
-  uid_a: String,
+  uid_a: String,        // uid_a < uid_b（字典序，保证唯一性）
   uid_b: String,
   score: Number,        // 0–100，Jaccard + 加权
   tags_common: String[],
   status: String,       // 'pending' | 'active' | 'skipped'
+  source: String,       // 可选，'mood_comment' 表示因评论共鸣而建立
   updated_at: Date
 }
 ```
 
 ---
 
+## 数据库索引（已建立）
+
+| 集合 | 索引字段 | 用途 |
+|------|----------|------|
+| `letters` | `{ to_uid: 1, status: 1 }` | 收件箱查询 |
+| `moods` | `{ uid: 1, date: 1 }` | 月历 + 当天查重 |
+| `matches` | `{ uid_a: 1, updated_at: -1 }` | 匹配列表排序 |
+
+**待手动创建：**
+- `mood_comments`: `{ mood_id: 1, created_at: 1 }` — 评论列表查询
+
+---
+
 ## 云函数接口规范
 
 ### 调用方式
-所有云函数通过 `wx.cloud.callFunction` 调用：
+所有云函数通过 `utils/api.js` 封装后调用，**禁止页面直接调用 `wx.cloud.callFunction`**：
 ```js
 wx.cloud.callFunction({
   name: 'functionName',
@@ -189,21 +218,22 @@ wx.cloud.callFunction({
 | `1002` | 字数不足 |
 | `1003` | 对方已拒绝接收 |
 | `1004` | 每日推荐已用完 |
-| `1005` | 活跃书信组数已达上限 |
-| `9001` | 数据库操作失败 |
+| `1005` | 活跃书信组数已达上限（普通用户 ≤ 5 组） |
+| `9001` | 数据库操作失败 / 参数非法 |
 | `9002` | 云函数超时 |
 
 ---
 
 ## 字数规则（业务约束）
 
-| 场景 | 最低字数 |
-|------|----------|
-| 陌生人首封信 | **150 字** |
-| 已建立通信的回信 | **100 字** |
-| 心情日记 | **30 字**（可选填） |
-| 一句话介绍（注册） | **20–60 字** |
+| 场景 | 规则 |
+|------|------|
+| 陌生人首封信 | 最少 **150 字**，最多 **5000 字符** |
+| 已建立通信的回信 | 最少 **100 字**，最多 **5000 字符** |
+| 心情日记 | 最少 **30 字**（选填），最多 **2000 字符** |
+| 一句话介绍（注册/编辑） | **20–60 字** |
 | 对方主页书写摘要（展示） | 最多展示 **50 字** |
+| 评论 | 最多 **200 字** |
 
 字数计算方式：去除首尾空格后的中文字符 + 英文单词数 + 阿拉伯数字组（不计标点、空格）。  
 校验逻辑统一在 `utils/validator.js` 的 `countWords(text)` 函数中实现，**禁止在各页面重复写校验逻辑**。
@@ -222,10 +252,11 @@ wx.cloud.callFunction({
 
 ### 云函数规范
 每个云函数必须：
-1. 在入口处调用 `cloud.init()`
+1. 在入口处调用 `cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })`
 2. 用 `try/catch` 包裹所有数据库操作
 3. 返回统一的 `{ code, data, message }` 结构
 4. 涉及用户生成内容的写操作，必须先调用 `moderateContent`
+5. 权限敏感查询必须使用 `.field()` 投影，只返回必要字段
 
 ```js
 // 云函数标准模板
@@ -234,6 +265,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event, context) => {
+  const { OPENID } = cloud.getWXContext()
   try {
     // 1. 参数校验
     // 2. 内容安全（如有 UGC）
@@ -250,10 +282,15 @@ exports.main = async (event, context) => {
 ### 前端数据请求
 统一使用 `utils/api.js` 封装，**禁止在页面 JS 中直接调用 `wx.cloud.callFunction`**：
 ```js
-// utils/api.js 导出形如：
-export const sendLetter = (data) => callCloud('sendLetter', data)
-export const getLetter  = (id)   => callCloud('getLetter',  { id })
+// utils/api.js 使用方式：
+const api = require('../../utils/api')
+const res = await api.sendLetter({ content, targetUid, isFirst })
 ```
+
+### 组件样式隔离
+所有自定义组件的 `styleIsolation` 应设为 `isolated`（默认值），防止页面样式渗入组件。  
+若需要读取全局 CSS 变量，通过 `var(--xxx)` 访问，不应依赖 `apply-shared`。  
+选中态等动态样式使用 **inline style 优先**，配合 class 作为语义标记。
 
 ---
 
@@ -269,6 +306,7 @@ export const getLetter  = (id)   => callCloud('getLetter',  { id })
 6. **禁止使用实时聊天功能**（WebSocket、长轮询）——本产品为异步书信，无实时通信需求
 7. **禁止暴露用户手机号、微信号等真实身份信息**给其他用户
 8. **禁止在页面 JS 中重复写字数校验逻辑**——统一使用 `utils/validator.js`
+9. **禁止给自己发信**——`sendLetter` 云函数中已有 `targetUid === OPENID` 检查，前端不应绕过
 
 ---
 
@@ -284,11 +322,14 @@ score = (|A ∩ B| / |A ∪ B|) * 100
 if (activeTime_A === activeTime_B)  score += 10
 if (letterFreq_A === letterFreq_B)  score += 5
 if (lastActive_B within 7 days)     score += 8
-if (already_in_contact)             score = -1  // 不推荐
-if (skipped_today)                  score = -1  // 不推荐
+if (already_in_contact)             skip    // 已通信，不计入推荐
+if (skipped_today)                  skip    // 已跳过，不计入推荐
+score = Math.min(score, 100)
 ```
 
 最终取 score ≥ 0 的用户，按 score 降序排列，每日推荐前 3 名（会员 5 名）。
+
+**心情评论建立笔友**：`commentOnMood` 云函数中，当心情作者回复他人评论时，自动在 `matches` 集合 upsert 一条 `status: 'active'` 的记录（`source: 'mood_comment'`），双方可直接互相写信。
 
 ---
 
@@ -319,7 +360,11 @@ if (skipped_today)                  score = -1  // 不推荐
 | 拆信动画帧率 | ≥ 55fps（主流机型） |
 | 情绪月历渲染 | < 200ms |
 
-**索引要求**：`letters` 集合在 `{ to_uid: 1, status: 1 }` 上建立复合索引。
+**已落地的性能优化：**
+- `getLetter`：发件人 + 收件人昵称 `Promise.all` 并行获取
+- `getInbox` / `getSent`：`.field()` 投影，列表不传输 content 正文
+- `getDailyRecommend`：推荐用户资料 `Promise.all` 并行批量获取
+- `getMatches`：预取 matches Map 消除 N+1 查询，批量 upsert BATCH_SIZE=10
 
 ---
 
@@ -336,6 +381,11 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 # 5. 上传云函数：
 #    右键单个云函数目录 → 「上传并部署：云端安装依赖」
+
+# 6. 创建 mood_comments 集合（需手动）：
+#    云开发控制台 → 数据库 → 新建集合 → mood_comments
+#    权限：仅创建者可读写
+#    创建索引：{ mood_id: 1, created_at: 1 }
 ```
 
 ---
@@ -359,6 +409,8 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
 | Sprint 8 | 测试与上线 | ✅ 已完成 | 2026-06-02 |
 
+---
+
 ## Sprint 0 完成情况（2026-05-30）
 
 **已完成：**
@@ -368,13 +420,14 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 - `miniprogram/` 完整目录脚手架：11 页面 × 4 文件、10 组件 × 4 文件
 - `miniprogram/app.wxss`：7 个全局 CSS 颜色变量 + 5 个情绪色变量
 - `miniprogram/utils/`：api.js / validator.js / date.js
-- `cloudfunctions/`：18 个云函数已上传至 `cloud1-d0gh5vk6m6766834f`
 - 数据库集合已创建：`users` / `letters` / `moods` / `matches`（权限：仅创建者可读写）
 - 数据库索引已创建：`letters.{to_uid,status}` / `moods.{uid,date}` / `matches.{uid_a,updated_at}`
 - `project.config.json`：项目根目录配置，`miniprogramRoot` + `cloudfunctionRoot` 已指向正确路径
 
 **待人工完成：**
 - 微信订阅消息模板申请（来信提醒 / 情绪记忆提醒）
+
+---
 
 ## Sprint 2 完成情况（2026-05-30）
 
@@ -397,7 +450,9 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 **已知限制（后续 Sprint 处理）：**
 - 订阅消息推送（来信提醒）：TODO，需用户申请模板
-- 信件归档功能：计划 Sprint 3 实现
+- 信件归档功能：已在 Sprint 3 实现
+
+---
 
 ## Sprint 5 完成情况（2026-05-31）
 
@@ -405,7 +460,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 - `pages/match/index/`：每日灵魂推荐页（加载推荐列表、跳过、写信、点击卡片查看主页）
 - `pages/match/profile/`：对方主页（公开资料展示、近期摘要、活跃偏好、跳过/写信操作）
 - `components/soul-card/`：灵魂匹配卡组件（匹配度色彩动态、共同标签展示、点击跳转主页）
-- `cloudfunctions/getMatches/`：Jaccard 匹配算法（加权修正：活跃时段+10 / 书信频率+5 / 近期活跃+8）+ 每日 0 点定时触发配置
+- `cloudfunctions/getMatches/`：Jaccard 匹配算法（加权修正：活跃时段+10 / 书信频率+5 / 近期活跃+8）
 - `cloudfunctions/getDailyRecommend/`：每日推荐列表（普通用户3条 / 会员5条）+ 信使账号冷启动兜底
 - `cloudfunctions/skipUser/`：跳过推荐（upsert matches 状态为 skipped）
 - `cloudfunctions/getPublicProfile/`：获取他人公开资料（白名单字段 + 近期摘要50字 + 活跃标签）
@@ -414,54 +469,65 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 **待人工完成：**
 - 在微信云开发控制台为 `getMatches` 云函数创建定时触发器（cron: `0 0 0 * * * *`）
 
-## Sprint 7 完成情况（2026-06-02）
+---
+
+## Sprint 5.5 完成情况（2026-06-02）
+
+**主题：心情当天可修改 + 可见性设置 + 陌生人评论 + 笔友机制**
 
 **已完成：**
 
+**功能1 — 当天心情可修改：**
+- `cloudfunctions/saveMood/`：已有 upsert 逻辑（同一天重复记录覆盖），前后端打通
+- `components/mood-widget/`：新增 `existingMood` prop，传入已有记录时自动进入编辑模式并预填表单；保存按钮文字改为"更新心情"
+- `pages/index/`：首页"今日心情已记录"卡片新增"修改"按钮，展开预填 mood-widget；`_checkTodayMood` 保存完整心情对象供回填
+- `pages/journey/index/`：情绪旅程页点击今日已有记录时，详情面板出现"修改心情"按钮，内嵌 mood-widget 编辑模式
+
+**功能2 — 可见性、评论与笔友：**
+- `cloudfunctions/saveMood/`：新增 `visibility` 字段（`'private' | 'friends' | 'public'`，默认 `'private'`）
+- `components/mood-widget/`：新增可见性三档选择器（🔒仅自己 / ✉️笔友 / 🌍公开），公开时显示提示文案
+- `cloudfunctions/getPublicMoods/`（新）：分页获取公开心情广场，附带作者昵称和评论数
+- `cloudfunctions/commentOnMood/`（新）：对公开心情评论/回复（内容安全审核）；**心情作者回复他人评论时，自动 upsert `matches` 记录为 `active`，双方成为笔友**
+- `cloudfunctions/getMoodComments/`（新）：获取指定心情的评论列表（权限校验：public 或自己的才可查）
+- `pages/journey/index/`：新增"心情广场" Tab；公开心情卡片可点击评论；评论通过底部弹层交互；成为笔友后弹出提示
+- `utils/api.js`：新增 `getPublicMoods` / `commentOnMood` / `getMoodComments` 三个方法
+
+**新增数据集合：** `mood_comments`（需手动创建，见本地开发说明）
+
+---
+
+## Sprint 7 完成情况（2026-06-02）
+
+**主题：性能与安全加固**
+
 **安全加固：**
-- `cloudfunctions/sendLetter/`：禁止自发信（`targetUid === OPENID` 检查）；内容长度上限 5000 字符；标题内容安全审核；活跃书信组上限校验（普通用户 ≤ 5 组，错误码 1005）；仅查询收件人必要字段
-- `cloudfunctions/replyLetter/`：内容长度上限 5000 字符；标题内容安全审核；原信件查询仅取必要字段
+- `cloudfunctions/sendLetter/`：禁止自发信（`targetUid === OPENID`）；内容上限 5000 字符；标题内容安全审核；活跃书信组上限（普通用户 ≤ 5 组，错误码 1005）；仅查询收件人必要字段
+- `cloudfunctions/replyLetter/`：内容上限 5000 字符；标题内容安全审核；原信件查询仅取必要字段
 - `cloudfunctions/createUser/`：昵称内容安全审核；标签合法性校验（非空、长度 ≤ 20 字、过滤空白）；枚举值校验（active_time / letter_freq）
-- `cloudfunctions/updateUser/`：昵称内容安全审核；标签合法性校验同上；枚举值严格校验；移除更新后多余的二次查询（性能优化）
-- `cloudfunctions/saveMood/`：日记内容长度上限 2000 字符；禁止记录未来日期；intensity 类型强制转换
-- `cloudfunctions/getInbox/`、`getSent/`：page 参数类型安全（parseInt + Math.max 防负值）
+- `cloudfunctions/updateUser/`：昵称内容安全审核；标签合法性校验同上；枚举值严格校验；移除更新后多余的二次查询
+- `cloudfunctions/saveMood/`：日记上限 2000 字符；禁止未来日期；intensity 类型强制转换
+- `cloudfunctions/getInbox/` / `getSent/`：page 参数类型安全（parseInt + Math.max 防负值）
 
 **性能优化：**
-- `cloudfunctions/getLetter/`：发件人 + 收件人昵称并行查询（`Promise.all`），避免串行等待
-- `cloudfunctions/getInbox/`、`getSent/`：加入 `.field()` 投影，列表不返回 content 正文大字段，减少数据传输量
-- `cloudfunctions/getDailyRecommend/`：推荐用户资料并行批量获取（`Promise.all`），消除循环串行查询
-- `cloudfunctions/getMatches/`：预取所有已有 matches 记录到内存 Map，消除 N+1 数据库查询；四路初始查询并行化（`Promise.all`）；批量 upsert 按 BATCH_SIZE=10 并发执行，防止云函数超时
+- `cloudfunctions/getLetter/`：发件人 + 收件人昵称 `Promise.all` 并行获取
+- `cloudfunctions/getInbox/` / `getSent/`：`.field()` 投影，列表不返回 content 正文大字段
+- `cloudfunctions/getDailyRecommend/`：`Promise.all` 并行批量获取推荐用户资料
+- `cloudfunctions/getMatches/`：预取 matches Map 消除 N+1 查询；四路初始查询并行化；批量 upsert BATCH_SIZE=10
+
+---
+
+## Bug 修复记录
+
+| 日期 | 文件 | 问题 | 修复 |
+|------|------|------|------|
+| 2026-06-02 | `components/tag-picker/` | `styleIsolation: 'apply-shared'` 导致页面样式注入，`.tag-selected` 背景色被覆盖，选中标签无视觉反馈 | 改为 `isolated`；CSS 选择器升级为 `.tag-option.tag-selected`；WXML 添加 inline style 双重保障 |
+
+---
 
 ## 已知环境信息
 
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
-- **云函数数量**：22 个（均已上传）
-- **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
+- **云函数数量**：22 个（均已部署）
+- **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG）
 - **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
-
-## Sprint 8 完成情况（2026-06-02）
-
-**已完成：**
-
-**单元测试：**
-- `tests/validator.test.js`：countWords / validateLetter / validateIntro / validateMoodDiary 全覆盖（20 用例）
-- `tests/date.test.js`：formatDate / relativeTime / isActiveRecently 全覆盖（17 用例）
-- `tests/run.js`：轻量测试运行器，`node tests/run.js` 运行，37/37 通过
-
-**Bug 修复：**
-- `cloudfunctions/sendLetter/index.js`：`_countWords` 未计入数字组，与 `validator.js` 不一致，已修复
-- `cloudfunctions/replyLetter/index.js`：同上，已修复
-- `miniprogram/utils/date.js`：`formatDate(null)` 返回 `"1970-01-01"` 而非 `""`，已修复（null/undefined 提前返回）
-
-**隐私政策与上线准备：**
-- `pages/privacy/`：隐私政策页面（微信小程序上线必须项）
-- `app.json`：注册隐私页、添加 `__usePrivacyCheck__: true`
-- `app.js`：`_initPrivacy()` — 监听 `wx.onNeedPrivacyAuthorization`，首次使用弹窗授权
-- `miniprogram/sitemap.json`：修复 app.json 引用但文件不存在的问题（默认禁止索引）
-- `pages/profile/index/`：添加隐私政策入口 `goToPrivacy()`
-
-**待人工完成（上线前）：**
-- 在微信公众平台填写隐私政策链接（指向 `pages/privacy/index`）
-- 提交代码审核前在开发者工具中完整测试全链路（注册→匹配→写信→收信→情绪记录）
-- 申请订阅消息模板（来信提醒 / 情绪记忆提醒）
-- 为 `getMatches` 云函数在控制台创建定时触发器（cron: `0 0 0 * * * *`）
+- **数据库集合**：`users` / `letters` / `moods` / `matches`（已建）；`mood_comments`（需手动建）

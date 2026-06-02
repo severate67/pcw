@@ -8,7 +8,7 @@ const PRESET_TAGS = [
 
 Component({
   options: {
-    styleIsolation: 'apply-shared'
+    styleIsolation: 'isolated'
   },
 
   properties: {
