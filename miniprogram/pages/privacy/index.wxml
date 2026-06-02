@@ -1,0 +1,41 @@
+<scroll-view class="container" scroll-y>
+  <view class="header">
+    <text class="title">隐私政策</text>
+    <text class="update-date">更新日期：{{updateDate}}</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">一、信息收集</text>
+    <text class="section-body">平常（PingChang）通过微信授权获取您的微信 openid 作为唯一身份标识，不收集您的手机号、真实姓名等敏感信息。您在注册时填写的昵称、一句话介绍、兴趣标签及书信偏好，将用于为您匹配志趣相投的书友。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">二、信息使用</text>
+    <text class="section-body">您的个人信息仅用于以下目的：\n• 提供书信匹配推荐服务\n• 展示您的公开主页信息给书友\n• 记录您的情绪旅程（默认私密）\n• 改善产品体验（匿名统计）</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">三、信息共享</text>
+    <text class="section-body">我们不会向第三方出售或共享您的个人信息。书信内容仅对发件人和收件人可见，平台管理员不会主动阅读您的私人信件（内容安全审核除外）。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">四、内容安全</text>
+    <text class="section-body">所有用户生成内容（信件正文、昵称、介绍、日记）在写入前均通过微信内容安全 API 进行违规检测，以维护平台健康环境。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">五、数据存储</text>
+    <text class="section-body">您的数据存储在微信云开发 CloudBase 中，数据中心位于中国大陆。您可以在「我的」页面申请注销账号，注销后我们将在 30 天内删除您的全部数据。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">六、未成年人保护</text>
+    <text class="section-body">平常面向 18 岁及以上用户。若您是未成年人，请在监护人陪同下使用本产品。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-title">七、联系我们</text>
+    <text class="section-body">如您对本隐私政策有任何疑问，可通过小程序内「我的」页面的反馈功能联系我们。</text>
+  </view>
+</scroll-view>

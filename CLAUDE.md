@@ -357,7 +357,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 5.5 | 心情可见性与评论 | ✅ 已完成 | 2026-06-02 |
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
-| Sprint 8 | 测试与上线 | ⬜ 未开始 | — |
+| Sprint 8 | 测试与上线 | ✅ 已完成 | 2026-06-02 |
 
 ## Sprint 0 完成情况（2026-05-30）
 
@@ -435,6 +435,33 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 ## 已知环境信息
 
 - **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
-- **云函数数量**：18 个（均已上传，Sprint 2 完成核心书信函数）
+- **云函数数量**：22 个（均已上传）
 - **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
 - **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
+
+## Sprint 8 完成情况（2026-06-02）
+
+**已完成：**
+
+**单元测试：**
+- `tests/validator.test.js`：countWords / validateLetter / validateIntro / validateMoodDiary 全覆盖（20 用例）
+- `tests/date.test.js`：formatDate / relativeTime / isActiveRecently 全覆盖（17 用例）
+- `tests/run.js`：轻量测试运行器，`node tests/run.js` 运行，37/37 通过
+
+**Bug 修复：**
+- `cloudfunctions/sendLetter/index.js`：`_countWords` 未计入数字组，与 `validator.js` 不一致，已修复
+- `cloudfunctions/replyLetter/index.js`：同上，已修复
+- `miniprogram/utils/date.js`：`formatDate(null)` 返回 `"1970-01-01"` 而非 `""`，已修复（null/undefined 提前返回）
+
+**隐私政策与上线准备：**
+- `pages/privacy/`：隐私政策页面（微信小程序上线必须项）
+- `app.json`：注册隐私页、添加 `__usePrivacyCheck__: true`
+- `app.js`：`_initPrivacy()` — 监听 `wx.onNeedPrivacyAuthorization`，首次使用弹窗授权
+- `miniprogram/sitemap.json`：修复 app.json 引用但文件不存在的问题（默认禁止索引）
+- `pages/profile/index/`：添加隐私政策入口 `goToPrivacy()`
+
+**待人工完成（上线前）：**
+- 在微信公众平台填写隐私政策链接（指向 `pages/privacy/index`）
+- 提交代码审核前在开发者工具中完整测试全链路（注册→匹配→写信→收信→情绪记录）
+- 申请订阅消息模板（来信提醒 / 情绪记忆提醒）
+- 为 `getMatches` 云函数在控制台创建定时触发器（cron: `0 0 0 * * * *`）

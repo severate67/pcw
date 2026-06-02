@@ -10,7 +10,8 @@
     "pages/match/profile/index",
     "pages/profile/index/index",
     "pages/profile/edit/index",
-    "pages/onboarding/index/index"
+    "pages/onboarding/index/index",
+    "pages/privacy/index"
   ],
   "tabBar": {
     "color": "#7A5C3E",
@@ -49,5 +50,6 @@
     "backgroundColor": "#F5EFE0"
   },
   "requiredBackgroundModes": [],
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "__usePrivacyCheck__": true
 }

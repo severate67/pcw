@@ -72,5 +72,9 @@ Page({
 
   goToJourney() {
     wx.switchTab({ url: '/pages/journey/index/index' })
+  },
+
+  goToPrivacy() {
+    wx.navigateTo({ url: '/pages/privacy/index' })
   }
 })

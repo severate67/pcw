@@ -8,6 +8,7 @@
  * @returns {string}
  */
 const formatDate = (date, fmt) => {
+  if (date === null || date === undefined) return ''
   const d = date instanceof Date ? date : new Date(date)
   if (isNaN(d.getTime())) return ''
 
@@ -57,6 +58,7 @@ const relativeTime = (date) => {
  * @returns {boolean}
  */
 const isActiveRecently = (date) => {
+  if (date === null || date === undefined) return false
   const d = date instanceof Date ? date : new Date(date)
   if (isNaN(d.getTime())) return false
 
