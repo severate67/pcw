@@ -2,6 +2,7 @@
   "navigationBarTitleText": "情绪旅程",
   "usingComponents": {
     "emotion-calendar": "../../../components/emotion-calendar/index",
-    "trend-chart": "../../../components/trend-chart/index"
+    "trend-chart": "../../../components/trend-chart/index",
+    "mood-widget": "../../../components/mood-widget/index"
   }
 }

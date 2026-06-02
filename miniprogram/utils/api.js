@@ -71,7 +71,7 @@ const archiveLetter = (id) => callCloud('archiveLetter', { id })
 
 /**
  * 保存情绪记录
- * @param {{emotion: string, intensity: number, diary?: string, date: string}} data
+ * @param {{emotion: string, intensity: number, diary?: string, date: string, visibility?: string}} data
  */
 const saveMood = (data) => callCloud('saveMood', data)
 
@@ -91,6 +91,26 @@ const getMoodTrend = () => callCloud('getMoodTrend', {})
  * 获取「去年的今天」记录
  */
 const getMemoryToday = () => callCloud('getMemoryToday', {})
+
+/**
+ * 获取公开心情广场（分页）
+ * @param {number} page 页码，从 0 开始
+ * @param {boolean} includeSelf 是否包含自己的记录
+ */
+const getPublicMoods = (page, includeSelf) => callCloud('getPublicMoods', { page: page || 0, includeSelf: !!includeSelf })
+
+/**
+ * 对公开心情发表评论
+ * @param {{moodId: string, content: string, parentId?: string}} data
+ */
+const commentOnMood = (data) => callCloud('commentOnMood', data)
+
+/**
+ * 获取心情评论列表
+ * @param {string} moodId 心情记录 _id
+ * @param {number} page 页码，从 0 开始
+ */
+const getMoodComments = (moodId, page) => callCloud('getMoodComments', { moodId, page: page || 0 })
 
 // ─── 匹配推荐相关 ────────────────────────────────────────────
 
@@ -150,6 +170,9 @@ module.exports = {
   getMoods,
   getMoodTrend,
   getMemoryToday,
+  getPublicMoods,
+  commentOnMood,
+  getMoodComments,
   getDailyRecommend,
   skipUser,
   getPublicProfile,

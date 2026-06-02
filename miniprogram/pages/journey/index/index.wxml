@@ -1,73 +1,232 @@
 <!-- pages/journey/index/index.wxml — 情绪旅程 -->
 <view class="page-container">
 
-  <!-- 月份选择器 -->
-  <view class="month-picker">
-    <view class="month-arrow" bindtap="prevMonth">‹</view>
-    <text class="month-label">{{currentYear}}年{{currentMonth}}月</text>
-    <view class="month-arrow" bindtap="nextMonth">›</view>
+  <!-- Tab 切换：我的旅程 / 心情广场 -->
+  <view class="tab-bar">
+    <view
+      class="tab-item {{activeTab === 'mine' ? 'tab-active' : ''}}"
+      bindtap="switchTab"
+      data-tab="mine"
+    >我的旅程</view>
+    <view
+      class="tab-item {{activeTab === 'feed' ? 'tab-active' : ''}}"
+      bindtap="switchTab"
+      data-tab="feed"
+    >心情广场</view>
   </view>
 
-  <!-- 情绪月历 -->
-  <view class="calendar-section">
-    <emotion-calendar
-      moods="{{moods}}"
-      year="{{currentYear}}"
-      month="{{currentMonth}}"
-      bind:dayTap="onDayTap"
-    />
-  </view>
+  <!-- ─── 我的旅程 ─── -->
+  <block wx:if="{{activeTab === 'mine'}}">
 
-  <!-- 选中日期详情 -->
-  <view wx:if="{{selectedMood}}" class="mood-detail card">
-    <view class="mood-detail-header">
-      <text class="mood-date-label">{{selectedDay}}</text>
-      <view class="mood-badge mood-{{selectedMood.emotion}}">
-        <text>{{selectedMood.emotionLabel}}</text>
-      </view>
+    <!-- 月份选择器 -->
+    <view class="month-picker">
+      <view class="month-arrow" bindtap="prevMonth">‹</view>
+      <text class="month-label">{{currentYear}}年{{currentMonth}}月</text>
+      <view class="month-arrow" bindtap="nextMonth">›</view>
     </view>
-    <view class="mood-intensity">
-      <text class="intensity-label">心情强度：</text>
-      <view class="intensity-dots">
+
+    <!-- 情绪月历 -->
+    <view class="calendar-section">
+      <emotion-calendar
+        moods="{{moods}}"
+        year="{{currentYear}}"
+        month="{{currentMonth}}"
+        bind:dayTap="onDayTap"
+      />
+    </view>
+
+    <!-- 选中日期详情 -->
+    <view wx:if="{{selectedMood && !editingToday}}" class="mood-detail card">
+      <view class="mood-detail-header">
+        <text class="mood-date-label">{{selectedDay}}</text>
+        <view class="mood-detail-right">
+          <text class="visibility-badge">{{selectedMood.visibilityLabel}}</text>
+          <view class="mood-badge mood-{{selectedMood.emotion}}">
+            <text>{{selectedMood.emotionLabel}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="mood-intensity">
+        <text class="intensity-label">心情强度：</text>
+        <view class="intensity-dots">
+          <view
+            wx:for="{{[1,2,3,4,5]}}"
+            wx:key="*this"
+            class="intensity-dot {{item <= selectedMood.intensity ? 'dot-active mood-dot-' + selectedMood.emotion : ''}}"
+          ></view>
+        </view>
+      </view>
+      <view wx:if="{{selectedMood.diary}}" class="mood-diary">
+        <text>{{selectedMood.diary}}</text>
+      </view>
+      <!-- 操作行 -->
+      <view class="mood-actions">
         <view
-          wx:for="{{[1,2,3,4,5]}}"
-          wx:key="*this"
-          class="intensity-dot {{item <= selectedMood.intensity ? 'dot-active mood-dot-' + selectedMood.emotion : ''}}"
-        ></view>
+          wx:if="{{selectedDay === today}}"
+          class="action-btn"
+          bindtap="onEditTodayMood"
+        >修改心情</view>
+        <view
+          wx:if="{{selectedMood.visibility === 'public'}}"
+          class="action-btn action-btn-comment"
+          bindtap="openComments"
+          data-mood-id="{{selectedMood._id}}"
+        >
+          <text>评论 ({{selectedMood.commentCount || 0}})</text>
+        </view>
       </view>
     </view>
-    <view wx:if="{{selectedMood.diary}}" class="mood-diary">
-      <text>{{selectedMood.diary}}</text>
-    </view>
-  </view>
 
-  <view wx:elif="{{selectedDay && !selectedMood}}" class="mood-empty-day card">
-    <text class="mood-empty-text">{{selectedDay}} 没有情绪记录</text>
-  </view>
-
-  <!-- 情绪趋势折线图 -->
-  <view class="section">
-    <view class="section-header">
-      <text class="section-title">近30天情绪走势</text>
+    <!-- 今日编辑模式 -->
+    <view wx:elif="{{editingToday}}" class="mood-detail card">
+      <view class="edit-mode-header">
+        <text class="edit-mode-title">修改今日心情</text>
+        <text class="cancel-btn" bindtap="onCancelEditMood">取消</text>
+      </view>
+      <mood-widget
+        existing-mood="{{selectedMood}}"
+        bind:save="onMoodSaved"
+      />
     </view>
-    <view class="chart-section card">
-      <trend-chart data="{{trend}}" wx:if="{{trend.length > 0}}" />
-      <view wx:else class="chart-empty">
-        <text class="chart-empty-text">记录今天的心情，开始你的情绪旅程</text>
+
+    <view wx:elif="{{selectedDay && !selectedMood}}" class="mood-empty-day card">
+      <text class="mood-empty-text">{{selectedDay}} 没有情绪记录</text>
+      <view wx:if="{{selectedDay === today}}" class="mood-empty-hint">
+        <text>回到首页记录今天的心情</text>
       </view>
     </view>
-  </view>
 
-  <!-- 加载中 -->
-  <view wx:if="{{loading}}" class="loading-wrap">
-    <text>加载中...</text>
-  </view>
+    <!-- 情绪趋势折线图 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">近30天情绪走势</text>
+      </view>
+      <view class="chart-section card">
+        <trend-chart data="{{trend}}" wx:if="{{trend.length > 0}}" />
+        <view wx:else class="chart-empty">
+          <text class="chart-empty-text">记录今天的心情，开始你的情绪旅程</text>
+        </view>
+      </view>
+    </view>
 
-  <!-- 无记录空状态 -->
-  <view wx:elif="{{moods.length === 0}}" class="empty-state">
-    <text class="empty-icon">🌱</text>
-    <text>本月还没有情绪记录</text>
-    <text class="empty-sub">回到首页记录今天的心情</text>
+    <view wx:if="{{loading}}" class="loading-wrap">
+      <text>加载中...</text>
+    </view>
+
+    <view wx:elif="{{moods.length === 0 && !loading}}" class="empty-state">
+      <text class="empty-icon">🌱</text>
+      <text>本月还没有情绪记录</text>
+      <text class="empty-sub">回到首页记录今天的心情</text>
+    </view>
+
+  </block>
+
+  <!-- ─── 心情广场 ─── -->
+  <block wx:if="{{activeTab === 'feed'}}">
+    <view wx:if="{{feedLoading && feedList.length === 0}}" class="loading-wrap">
+      <text>加载中...</text>
+    </view>
+    <view wx:elif="{{feedList.length === 0}}" class="empty-state">
+      <text class="empty-icon">🌸</text>
+      <text>还没有公开的心情</text>
+      <text class="empty-sub">设置心情为公开，让陌生人与你共鸣</text>
+    </view>
+    <view wx:else class="feed-list">
+      <view
+        wx:for="{{feedList}}"
+        wx:key="_id"
+        class="feed-card card"
+      >
+        <view class="feed-card-header">
+          <view class="feed-author-info">
+            <text class="feed-author-name">{{item.authorNickname}}</text>
+            <text class="feed-date">{{item.date}}</text>
+          </view>
+          <view class="mood-badge mood-{{item.emotion}}">
+            <text>{{item.emotionLabel}}</text>
+          </view>
+        </view>
+        <view class="feed-intensity-row">
+          <view class="intensity-dots">
+            <view
+              wx:for="{{[1,2,3,4,5]}}"
+              wx:for-item="dot"
+              wx:key="*this"
+              class="intensity-dot-sm {{dot <= item.intensity ? 'dot-active mood-dot-' + item.emotion : ''}}"
+            ></view>
+          </view>
+        </view>
+        <view wx:if="{{item.diary}}" class="feed-diary">
+          <text class="text-ellipsis-3">{{item.diary}}</text>
+        </view>
+        <view class="feed-card-footer">
+          <view
+            class="comment-btn"
+            bindtap="openComments"
+            data-mood-id="{{item._id}}"
+          >
+            <text>💬 {{item.commentCount || 0}} 评论</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{feedLoading}}" class="loading-wrap"><text>加载更多...</text></view>
+      <view wx:elif="{{!feedHasMore}}" class="list-end"><text>— 已到底部 —</text></view>
+    </view>
+  </block>
+
+  <!-- ─── 评论弹层 ─── -->
+  <view wx:if="{{commentsOpen}}" class="comments-mask" bindtap="closeComments"></view>
+  <view wx:if="{{commentsOpen}}" class="comments-panel">
+    <view class="comments-panel-header">
+      <text class="comments-title">评论</text>
+      <text class="comments-close" bindtap="closeComments">✕</text>
+    </view>
+
+    <scroll-view class="comments-scroll" scroll-y="true">
+      <view wx:if="{{comments.length === 0}}" class="comments-empty">
+        <text>暂无评论，来说第一句话吧</text>
+      </view>
+      <view wx:for="{{comments}}" wx:key="_id" class="comment-item {{item.parent_id ? 'comment-reply' : ''}}">
+        <view class="comment-header">
+          <text class="comment-author">{{item.fromNickname}}</text>
+          <text class="comment-time">{{item.created_at}}</text>
+        </view>
+        <text class="comment-content">{{item.content}}</text>
+        <!-- 回复按钮（仅顶层评论显示，避免无限嵌套） -->
+        <view
+          wx:if="{{!item.parent_id && commentMoodIsMine}}"
+          class="reply-btn"
+          bindtap="onReplyTap"
+          data-comment-id="{{item._id}}"
+          data-nickname="{{item.fromNickname}}"
+        >回复</view>
+      </view>
+    </scroll-view>
+
+    <!-- 输入区 -->
+    <view class="comment-input-area">
+      <view wx:if="{{replyToNickname}}" class="reply-hint">
+        <text>回复 @{{replyToNickname}}</text>
+        <text class="reply-cancel" bindtap="cancelReply">✕</text>
+      </view>
+      <view class="comment-input-row">
+        <input
+          class="comment-input"
+          placeholder="{{replyToNickname ? '回复 @' + replyToNickname + '...' : '说点什么...'}}"
+          placeholder-class="placeholder"
+          value="{{commentInput}}"
+          bindinput="onCommentInput"
+          maxlength="200"
+          confirm-type="send"
+          bindconfirm="sendComment"
+        />
+        <view
+          class="comment-send-btn {{sendingComment ? 'btn-disabled' : ''}}"
+          bindtap="sendComment"
+        >发送</view>
+      </view>
+    </view>
   </view>
 
 </view>

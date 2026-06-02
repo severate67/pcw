@@ -113,6 +113,61 @@
   display: block;
 }
 
+.visibility-section {
+  margin-bottom: 20rpx;
+}
+
+.visibility-label {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.visibility-options {
+  display: flex;
+  gap: 16rpx;
+}
+
+.visibility-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx 0;
+  border-radius: 12rpx;
+  border: 2rpx solid var(--color-gold);
+  background-color: var(--color-bg);
+  gap: 6rpx;
+}
+
+.visibility-active {
+  border-color: var(--color-primary);
+  background-color: var(--color-paper);
+}
+
+.visibility-icon {
+  font-size: 30rpx;
+}
+
+.visibility-text {
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+}
+
+.visibility-active .visibility-text {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.visibility-tip {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: var(--color-ink-secondary);
+  opacity: 0.75;
+}
+
 .save-btn {
   width: 100%;
   text-align: center;

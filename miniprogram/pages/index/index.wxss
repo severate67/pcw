@@ -63,20 +63,59 @@
 }
 
 .mood-done {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 28rpx 32rpx;
 }
 
-.mood-done-text {
+.mood-done-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mood-done-info {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.mood-done-label {
   font-size: 28rpx;
   color: var(--color-ink-secondary);
 }
 
-.mood-done-emoji {
-  font-size: 40rpx;
-  color: var(--m-calm);
+.mood-done-badge {
+  border-radius: 20rpx;
+  padding: 4rpx 16rpx;
+  font-size: 22rpx;
+  color: #fff;
+}
+
+.mood-done-diary {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  line-height: 1.6;
+}
+
+.mood-edit-btn {
+  font-size: 24rpx;
+  color: var(--color-primary);
+  padding: 8rpx 16rpx;
+  border: 1rpx solid var(--color-gold);
+  border-radius: 20rpx;
+}
+
+.edit-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.cancel-btn {
+  font-size: 24rpx;
+  color: var(--color-ink-secondary);
+  padding: 8rpx 0;
 }
 
 /* 记忆区域 */
