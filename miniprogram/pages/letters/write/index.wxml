@@ -55,14 +55,18 @@
     <view class="paper-line" wx:for="{{[1,2,3]}}" wx:key="*this"></view>
   </view>
 
-  <!-- 发送按钮（蜡封组件） -->
+  <!-- 底部操作栏 -->
   <view class="send-area">
     <seal-stamp sealed="{{!canSend}}" bind:tap="onSend" />
-    <view
-      class="btn btn-primary send-btn {{!canSend || sending ? 'btn-disabled' : ''}}"
-      bindtap="onSend"
-    >
-      <text>{{sending ? '寄出中...' : '封存寄出'}}</text>
+    <view class="send-right">
+      <text class="draft-status">{{draftSaved ? draftSavedAt : ''}}</text>
+      <view class="btn btn-ghost draft-btn" bindtap="onSaveDraft">存草稿</view>
+      <view
+        class="btn btn-primary send-btn {{!canSend || sending ? 'btn-disabled' : ''}}"
+        bindtap="onSend"
+      >
+        <text>{{sending ? '寄出中...' : '封存寄出'}}</text>
+      </view>
     </view>
   </view>
 

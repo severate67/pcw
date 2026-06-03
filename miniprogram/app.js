@@ -51,6 +51,7 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    viewingProfile: null  // 临时缓存：从推荐列表跳转对方主页时存放 profile 数据
   }
 })

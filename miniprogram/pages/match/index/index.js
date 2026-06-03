@@ -61,6 +61,11 @@ Page({
   goToProfile(e) {
     const targetUid = e.detail ? e.detail.targetUid : e.currentTarget.dataset.targetUid
     if (!targetUid) return
+    // 将已有的 profile 数据缓存到 globalData，避免对方主页重复调用云函数
+    const rec = this.data.recommendations.find(r => r.profile._id === targetUid)
+    if (rec) {
+      getApp().globalData.viewingProfile = { uid: targetUid, data: rec.profile }
+    }
     wx.navigateTo({ url: `/pages/match/profile/index?targetUid=${targetUid}` })
   },
 

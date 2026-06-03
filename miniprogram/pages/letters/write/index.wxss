@@ -113,21 +113,44 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24rpx 32rpx;
+  padding: 20rpx 32rpx;
   background-color: var(--color-bg);
   border-top: 1rpx solid var(--color-paper);
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.draft-status {
+  font-size: 20rpx;
+  color: var(--color-ink-secondary);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.send-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.draft-btn {
+  font-size: 26rpx;
+  padding: 16rpx 24rpx;
+  border-radius: 8rpx;
+  white-space: nowrap;
 }
 
 .send-btn {
-  flex: 1;
   font-size: 30rpx;
   font-weight: bold;
-  padding: 24rpx 0;
+  padding: 24rpx 32rpx;
   text-align: center;
   border-radius: 8rpx;
+  white-space: nowrap;
 }
 
 .btn-disabled {

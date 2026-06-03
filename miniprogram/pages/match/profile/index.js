@@ -20,11 +20,20 @@ Page({
   },
 
   async _loadProfile(targetUid) {
+    // 优先使用从推荐列表传递过来的缓存数据，避免云函数调用
+    const app = getApp()
+    const cached = app.globalData.viewingProfile
+    if (cached && cached.uid === targetUid) {
+      app.globalData.viewingProfile = null
+      this._applyProfile(cached.data)
+      return
+    }
+
     this.setData({ loading: true })
     try {
       const res = await api.getPublicProfile(targetUid)
       if (res.code === 0) {
-        this.setData({ profile: res.data })
+        this._applyProfile(res.data)
       } else {
         wx.showToast({ title: res.message || '用户不存在', icon: 'none' })
         wx.navigateBack()
@@ -35,6 +44,23 @@ Page({
     } finally {
       this.setData({ loading: false })
     }
+  },
+
+  _applyProfile(profileData) {
+    const activeTimeLabels = { morning: '清晨', afternoon: '午后', night: '夜深' }
+    const letterFreqLabels = { weekly: '每周一封', biweekly: '两周一封', free: '随缘' }
+    const isActiveRecently = profileData.last_active
+      ? (Date.now() - new Date(profileData.last_active).getTime()) <= 7 * 24 * 60 * 60 * 1000
+      : false
+    this.setData({
+      loading: false,
+      profile: {
+        ...profileData,
+        isActiveRecently,
+        activeTimeLabel: activeTimeLabels[profileData.active_time] || profileData.active_time,
+        letterFreqLabel: letterFreqLabels[profileData.letter_freq] || profileData.letter_freq
+      }
+    })
   },
 
   goToWrite() {
