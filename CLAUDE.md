@@ -440,22 +440,6 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 - **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG，已生成）
 - **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
 
-## Sprint 9 完成情况（2026-06-04）
-
-**Bug 修复：**
-- `pages/match/profile/index.js`：对方主页卡在"正在查看..."（`getPublicProfile` 云函数超时）——优先读取 `globalData.viewingProfile` 缓存，命中则跳过云函数调用，新增 `_applyProfile()` 方法统一处理 label 映射
-- `pages/match/index/index.js`：跳转对方主页前将 `getDailyRecommend` 已取得的 profile 数据写入 `getApp().globalData.viewingProfile`
-- `miniprogram/app.js`：`globalData` 新增 `viewingProfile: null` 字段
-
-**新功能：**
-- `pages/letters/write/`：草稿箱功能
-  - 输入停止 1.5 秒后自动保存到本地存储（`wx.setStorageSync`）
-  - 页面隐藏（`onHide`）/ 离开（`onUnload`）时自动保存
-  - 下次打开同一封信（相同 targetUid + parentId）时弹窗询问「继续写 / 重新写」
-  - 发送成功后自动清除草稿
-  - 底部新增「存草稿」幽灵按钮 + 保存时间状态提示（`HH:MM 已存`）
-  - 草稿 key 格式：`letter_draft_${targetUid}_${parentId || 'new'}`，不同收信人互不干扰
-
 ## Sprint 8 完成情况（2026-06-02）
 
 **已完成：**
@@ -482,3 +466,19 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 - 提交代码审核前在开发者工具中完整测试全链路（注册→匹配→写信→收信→情绪记录）
 - 申请订阅消息模板（来信提醒 / 情绪记忆提醒）
 - 为 `getMatches` 云函数在控制台创建定时触发器（cron: `0 0 0 * * * *`）
+
+## Sprint 9 完成情况（2026-06-04）
+
+**Bug 修复：**
+- `pages/match/profile/index.js`：对方主页卡在"正在查看..."（`getPublicProfile` 云函数超时）——优先读取 `globalData.viewingProfile` 缓存，命中则跳过云函数调用，新增 `_applyProfile()` 方法统一处理 label 映射
+- `pages/match/index/index.js`：跳转对方主页前将 `getDailyRecommend` 已取得的 profile 数据写入 `getApp().globalData.viewingProfile`
+- `miniprogram/app.js`：`globalData` 新增 `viewingProfile: null` 字段
+
+**新功能：**
+- `pages/letters/write/`：草稿箱功能
+  - 输入停止 1.5 秒后自动保存到本地存储（`wx.setStorageSync`）
+  - 页面隐藏（`onHide`）/ 离开（`onUnload`）时自动保存
+  - 下次打开同一封信（相同 targetUid + parentId）时弹窗询问「继续写 / 重新写」
+  - 发送成功后自动清除草稿
+  - 底部新增「存草稿」幽灵按钮 + 保存时间状态提示（`HH:MM 已存`）
+  - 草稿 key 格式：`letter_draft_${targetUid}_${parentId || 'new'}`，不同收信人互不干扰
