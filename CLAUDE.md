@@ -408,6 +408,7 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 | Sprint 6 | UI 精修 | ⬜ 未开始 | — |
 | Sprint 7 | 性能与安全 | ✅ 已完成 | 2026-06-02 |
 | Sprint 8 | 测试与上线 | ✅ 已完成 | 2026-06-02 |
+| Sprint 9 | Bug 修复与功能补充 | ✅ 已完成 | 2026-06-04 |
 
 ---
 
@@ -524,10 +525,41 @@ wx.cloud.init({ env: 'your-env-id', traceUser: true })
 
 ---
 
-## 已知环境信息
+**单元测试：**
+- `tests/validator.test.js`：countWords / validateLetter / validateIntro / validateMoodDiary 全覆盖（20 用例）
+- `tests/date.test.js`：formatDate / relativeTime / isActiveRecently 全覆盖（17 用例）
+- `tests/run.js`：轻量测试运行器，`node tests/run.js` 运行，37/37 通过
 
-- **云开发环境 ID**：`cloud1-d0gh5vk6m6766834f`
-- **云函数数量**：22 个（均已部署）
-- **tabBar 图标**：`miniprogram/assets/icons/`（8 个 PNG）
-- **设计原型**：`project/prototype/pingchat.html`（浏览器直接打开可查看）
-- **数据库集合**：`users` / `letters` / `moods` / `matches`（已建）；`mood_comments`（需手动建）
+**Bug 修复：**
+- `cloudfunctions/sendLetter/index.js`：`_countWords` 未计入数字组，与 `validator.js` 不一致，已修复
+- `cloudfunctions/replyLetter/index.js`：同上，已修复
+- `miniprogram/utils/date.js`：`formatDate(null)` 返回 `"1970-01-01"` 而非 `""`，已修复（null/undefined 提前返回）
+
+**隐私政策与上线准备：**
+- `pages/privacy/`：隐私政策页面（微信小程序上线必须项）
+- `app.json`：注册隐私页、添加 `__usePrivacyCheck__: true`
+- `app.js`：`_initPrivacy()` — 监听 `wx.onNeedPrivacyAuthorization`，首次使用弹窗授权
+- `miniprogram/sitemap.json`：修复 app.json 引用但文件不存在的问题（默认禁止索引）
+- `pages/profile/index/`：添加隐私政策入口 `goToPrivacy()`
+
+**待人工完成（上线前）：**
+- 在微信公众平台填写隐私政策链接（指向 `pages/privacy/index`）
+- 提交代码审核前在开发者工具中完整测试全链路（注册→匹配→写信→收信→情绪记录）
+- 申请订阅消息模板（来信提醒 / 情绪记忆提醒）
+- 为 `getMatches` 云函数在控制台创建定时触发器（cron: `0 0 0 * * * *`）
+
+## Sprint 9 完成情况（2026-06-04）
+
+**Bug 修复：**
+- `pages/match/profile/index.js`：对方主页卡在"正在查看..."（`getPublicProfile` 云函数超时）——优先读取 `globalData.viewingProfile` 缓存，命中则跳过云函数调用，新增 `_applyProfile()` 方法统一处理 label 映射
+- `pages/match/index/index.js`：跳转对方主页前将 `getDailyRecommend` 已取得的 profile 数据写入 `getApp().globalData.viewingProfile`
+- `miniprogram/app.js`：`globalData` 新增 `viewingProfile: null` 字段
+
+**新功能：**
+- `pages/letters/write/`：草稿箱功能
+  - 输入停止 1.5 秒后自动保存到本地存储（`wx.setStorageSync`）
+  - 页面隐藏（`onHide`）/ 离开（`onUnload`）时自动保存
+  - 下次打开同一封信（相同 targetUid + parentId）时弹窗询问「继续写 / 重新写」
+  - 发送成功后自动清除草稿
+  - 底部新增「存草稿」幽灵按钮 + 保存时间状态提示（`HH:MM 已存`）
+  - 草稿 key 格式：`letter_draft_${targetUid}_${parentId || 'new'}`，不同收信人互不干扰
